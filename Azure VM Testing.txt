@@ -1,0 +1,2797 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\prana> ssh -i ~/Downloads/VM1_key.pem azureuser@172.187.161.171
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.15.0-1041-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Wed Jul 26 10:22:26 UTC 2023
+
+  System load:  0.09              Processes:             117
+  Usage of /:   5.9% of 28.89GB   Users logged in:       0
+  Memory usage: 7%                IPv4 address for eth0: 10.0.0.4
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+
+Last login: Mon Jul 10 16:01:04 2023 from 194.80.232.27
+azureuser@VM1:~$ htop
+
+[1]+  Stopped                 htop
+azureuser@VM1:~$ #!/bin/bash
+ cpu_usage=$(htop -bn1 | awk '/^%Cpu/{print $2}')
+   azureuser@VM1:~$
+em_usagazureuser@VM1:~$ # Function to get CPU and Memory usage using htop
+azureuser@VM1:~$ get_system_usage() {
+>     local cpu_usage=$(htop -bn1 | awk '/^%Cpu/{print $2}')
+>     local mem_usage=$(htop -bn1 | awk '/^KiB Mem/{print $8}')
+>
+>     echo "CPU Usage: $cpu_usage%"
+>     echo "Memory Usage: $mem_usage KiB"
+> }
+azureuser@VM1:~$
+azureuser@VM1:~$ # Call the function to get the system usage
+azureuser@VM1:~$ get_system_usage
+htop: invalid option -- 'b'
+htop: invalid option -- 'b'
+CPU Usage: %
+Memory Usage:  KiB
+azureuser@VM1:~$ wget dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+m -ihv epel-release-7-11.noarch.rpm--2023-07-26 10:32:11--  http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+Resolving dl.fedoraproject.org (dl.fedoraproject.org)... 38.145.60.22, 38.145.60.24, 38.145.60.23
+Connecting to dl.fedoraproject.org (dl.fedoraproject.org)|38.145.60.22|:80... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2023-07-26 10:32:11 ERROR 404: Not Found.
+
+azureuser@VM1:~$ cat > monitor.txt
+ls
+
+
+
+
+^C
+azureuser@VM1:~$ ls
+monitor.txt
+azureuser@VM1:~$ cd monitor.txt
+
+
+azureuser@VM1:~$ cat monitor.txt
+#!/bin/bash
+# This script monitors CPU and memory usage
+
+while :
+do
+  # Get the current usage of CPU and memory
+  cpuUsage=$(top -bn1 | awk '/Cpu/ { print $2}')
+  memUsage=$(free -m | awk '/Mem/{print $3}')
+
+  # Print the usage
+  echo "CPU Usage: $cpuUsage%"
+  echo "Memory Usage: $memUsage MB"
+
+  # Sleep for 1 second
+  sleep 1
+done
+
+
+
+
+azureuser@VM1:~$ chmod +x monitor.txt
+azureuser@VM1:~$ ls -l monitor.txt
+-rwxrwxr-x 1 azureuser azureuser 340 Jul 26 10:37 monitor.txt
+azureuser@VM1:~$ ./monitor.txt
+CPU Usage: 3.1%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 3.1%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 3.2%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 3.1%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 3.2%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+CPU Usage: 0.0%
+Memory Usage: 253 MB
+^Z
+[2]+  Stopped                 ./monitor.txt
+azureuser@VM1:~$ nano monitor.txt
+azureuser@VM1:~$ cat monitor.tx
+cat: monitor.tx: No such file or directory
+azureuser@VM1:~$ cat monitor.txt
+#!/bin/bash
+# This script monitors CPU and memory usage
+
+while :
+do
+  # Get the current usage of CPU and memory
+  cpuUsage=$(top -bn1 | awk '/Cpu/ { print $2}')
+  totalMem=$(free -m | awk '/Mem/{print $2}')
+  usedMem=$(free -m | awk '/Mem/{print $3}')
+  memUsagePercentage=$(awk "BEGIN {printf \"%.1f\", ${usedMem} / ${totalMem} * 100}")
+
+  # Print the usage
+  echo "CPU Usage: $cpuUsage%"
+  echo "Memory Usage: $memUsagePercentage%"
+
+  # Sleep for 1 second
+  sleep 1
+done
+
+
+
+
+
+azureuser@VM1:~$ ./monitor.txt
+CPU Usage: 0.0%
+Memory Usage: 6.6%
+CPU Usage: 3.1%
+Memory Usage: 6.6%
+CPU Usage: 0.0%
+Memory Usage: 6.6%
+CPU Usage: 0.0%
+Memory Usage: 6.6%
+CPU Usage: 0.0%
+Memory Usage: 6.6%
+CPU Usage: 3.2%
+Memory Usage: 6.6%
+CPU Usage: 0.0%
+Memory Usage: 6.6%
+CPU Usage: 0.0%
+Memory Usage: 6.6%
+CPU Usage: 0.0%
+Memory Usage: 6.6%
+CPU Usage: 3.1%
+Memory Usage: 6.6%
+CPU Usage: 3.0%
+Memory Usage: 6.6%
+
+
+azureuser@VM1:~$ client_loop: send disconnect: Connection reset
+PS C:\Users\prana>
+PS C:\Users\prana>  ssh -i ~/Downloads/VM1_key.pem azureuser@172.187.161.171
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.15.0-1042-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Thu Jul 27 09:29:38 UTC 2023
+
+  System load:  0.72              Processes:             121
+  Usage of /:   7.2% of 28.89GB   Users logged in:       0
+  Memory usage: 6%                IPv4 address for eth0: 10.0.0.4
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+3 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+New release '22.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Wed Jul 26 10:22:27 2023 from 37.203.138.138
+azureuser@VM1:~$ sudo apt-get update
+Hit:1 http://azure.archive.ubuntu.com/ubuntu focal InRelease
+Get:2 http://azure.archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
+Get:4 http://azure.archive.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+Get:5 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [2721 kB]
+Get:6 http://azure.archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [1091 kB]
+Get:7 http://azure.archive.ubuntu.com/ubuntu focal-security/main amd64 Packages [2338 kB]
+Get:8 http://azure.archive.ubuntu.com/ubuntu focal-security/main amd64 c-n-f Metadata [13.0 kB]
+Get:9 http://azure.archive.ubuntu.com/ubuntu focal-security/universe amd64 Packages [864 kB]
+Fetched 7363 kB in 2s (4760 kB/s)
+Reading package lists... Done
+azureuser@VM1:~$ sudo apt -y install software-properties-common
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+software-properties-common is already the newest version (0.99.9.11).
+software-properties-common set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 4 not upgraded.
+azureuser@VM1:~$ sudo add-apt-repository ppa:ondrej/php
+ Co-installable PHP versions: PHP 5.6, PHP 7.x, PHP 8.x and most requested extensions are included. Only Supported Versions of PHP (http://php.net/supported-versions.php) for Supported Ubuntu Releases (https://wiki.ubuntu.com/Releases) are provided. Don't ask for end-of-life PHP versions or Ubuntu release, they won't be provided.
+
+Debian oldstable and stable packages are provided as well: https://deb.sury.org/#debian-dpa
+
+You can get more information about the packages at https://deb.sury.org
+
+IMPORTANT: The <foo>-backports is now required on older Ubuntu releases.
+
+BUGS&FEATURES: This PPA now has a issue tracker:
+https://deb.sury.org/#bug-reporting
+
+CAVEATS:
+1. If you are using php-gearman, you need to add ppa:ondrej/pkg-gearman
+2. If you are using apache2, you are advised to add ppa:ondrej/apache2
+3. If you are using nginx, you are advised to add ppa:ondrej/nginx-mainline
+   or ppa:ondrej/nginx
+
+PLEASE READ: If you like my work and want to give me a little motivation, please consider donating regularly: https://donate.sury.org/
+
+WARNING: add-apt-repository is broken with non-UTF-8 locales, see
+https://github.com/oerdnj/deb.sury.org/issues/56 for workaround:
+
+# LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+ More info: https://launchpad.net/~ondrej/+archive/ubuntu/php
+Press [ENTER] to continue or Ctrl-c to cancel adding it.
+
+Hit:1 http://azure.archive.ubuntu.com/ubuntu focal InRelease
+Hit:2 http://azure.archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:3 http://azure.archive.ubuntu.com/ubuntu focal-backports InRelease
+Hit:4 http://azure.archive.ubuntu.com/ubuntu focal-security InRelease
+Get:5 http://ppa.launchpad.net/ondrej/php/ubuntu focal InRelease [23.9 kB]
+Get:6 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 Packages [120 kB]
+Get:7 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main Translation-en [38.4 kB]
+Fetched 182 kB in 1s (273 kB/s)
+Reading package lists... Done
+azureuser@VM1:~$ sudo apt-get update
+Hit:1 http://azure.archive.ubuntu.com/ubuntu focal InRelease
+Hit:2 http://azure.archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:3 http://azure.archive.ubuntu.com/ubuntu focal-backports InRelease
+Hit:4 http://azure.archive.ubuntu.com/ubuntu focal-security InRelease
+Hit:5 http://ppa.launchpad.net/ondrej/php/ubuntu focal InRelease
+Reading package lists... Done
+azureuser@VM1:~$ sudo apt -y install php7.4
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  apache2 apache2-bin apache2-data apache2-utils libapache2-mod-php7.4 libapr1 libaprutil1 libaprutil1-dbd-sqlite3
+  libaprutil1-ldap libjansson4 liblua5.2-0 libpcre2-8-0 php-common php7.4-cli php7.4-common php7.4-json php7.4-opcache
+  php7.4-readline ssl-cert
+Suggested packages:
+  apache2-doc apache2-suexec-pristine | apache2-suexec-custom www-browser php-pear openssl-blacklist
+The following NEW packages will be installed:
+  apache2 apache2-bin apache2-data apache2-utils libapache2-mod-php7.4 libapr1 libaprutil1 libaprutil1-dbd-sqlite3
+  libaprutil1-ldap libjansson4 liblua5.2-0 php-common php7.4 php7.4-cli php7.4-common php7.4-json php7.4-opcache
+  php7.4-readline ssl-cert
+The following packages will be upgraded:
+  libpcre2-8-0
+1 upgraded, 19 newly installed, 0 to remove and 9 not upgraded.
+Need to get 5830 kB of archives.
+After this operation, 25.8 MB of additional disk space will be used.
+Get:1 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 libpcre2-8-0 amd64 10.40-1+ubuntu20.04.1+deb.sury.org+1 [208 kB]
+Get:2 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libapr1 amd64 1.6.5-1ubuntu1 [91.4 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libaprutil1 amd64 1.6.1-4ubuntu2.1 [84.9 kB]
+Enabling module negotiation.
+Enabling module setenvif.
+Enabling module filter.
+Enabling module deflate.
+Enabling module status.
+Enabling module reqtimeout.
+Enabling conf charset.
+Enabling conf localized-error-pages.
+Enabling conf other-vhosts-access-log.
+Enabling conf security.
+Enabling conf serve-cgi-bin.
+Enabling site 000-default.
+info: Switch to mpm prefork for package libapache2-mod-php7.4
+Module mpm_event disabled.
+Enabling module mpm_prefork.
+info: Executing deferred 'a2enmod php7.4' for package libapache2-mod-php7.4
+Enabling module php7.4.
+Created symlink /etc/systemd/system/multi-user.target.wants/apache2.service → /lib/systemd/system/apache2.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/apache-htcacheclean.service → /lib/systemd/system/apache-htcacheclean.service.
+Setting up php7.4 (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Processing triggers for ufw (0.36-6ubuntu1) ...
+Processing triggers for systemd (245.4-4ubuntu3.22) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for libc-bin (2.31-0ubuntu9.9) ...
+Processing triggers for php7.4-cli (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Processing triggers for libapache2-mod-php7.4 (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+azureuser@VM1:~$ php -v
+PHP 7.4.33 (cli) (built: Jun  8 2023 15:23:07) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies
+    with Zend OPcache v7.4.33, Copyright (c), by Zend Technologies
+azureuser@VM1:~$ sudo apt-get install -y php7.4-cli php7.4-json php7.4-common php7.4-mysql php7.4-zip php7.4-gd php7.4-mbstring php7.4-curl php7.4-xml php7.4-bcmath
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+php7.4-cli is already the newest version (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1).
+php7.4-cli set to manually installed.
+php7.4-common is already the newest version (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1).
+php7.4-common set to manually installed.
+php7.4-json is already the newest version (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1).
+php7.4-json set to manually installed.
+The following additional packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0 libjpeg-turbo8 libjpeg8 libonig5 libtiff5
+  libwebp6 libxpm4 libzip4
+Suggested packages:
+  libgd-tools
+The following NEW packages will be installed:
+  fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0 libjpeg-turbo8 libjpeg8 libonig5 libtiff5
+  libwebp6 libxpm4 libzip4 php7.4-bcmath php7.4-curl php7.4-gd php7.4-mbstring php7.4-mysql php7.4-xml php7.4-zip
+0 upgraded, 19 newly installed, 0 to remove and 9 not upgraded.
+Need to get 2753 kB of archives.
+After this operation, 9003 kB of additional disk space will be used.
+Get:1 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 fonts-dejavu-core all 2.37-1 [1041 kB]
+Get:2 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 libgd3 amd64 2.3.3-9+ubuntu20.04.1+deb.sury.org+1 [132 kB]
+Get:3 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 libzip4 amd64 1.7.3-1+ubuntu20.04.1+deb.sury.org+2 [55.1 kB]
+Get:4 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 fontconfig-config all 2.13.1-2ubuntu3 [28.8 kB]
+Get:5 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libfontconfig1 amd64 2.13.1-2ubuntu3 [114 kB]
+Get:6 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libjpeg-turbo8 amd64 2.0.3-0ubuntu1.20.04.3 [118 kB]
+Get:7 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 php7.4-bcmath amd64 1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1 [15.2 kB]
+Get:8 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libjpeg8 amd64 8c-2ubuntu8 [2194 B]
+Get:9 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libjbig0 amd64 2.1-3.1ubuntu0.20.04.1 [27.3 kB]
+Get:10 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libwebp6 amd64 0.6.1-2ubuntu0.20.04.2 [185 kB]
+Get:11 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libtiff5 amd64 4.1.0+git191117-2ubuntu0.20.04.8 [163 kB]
+Get:12 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 php7.4-curl amd64 1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1 [30.9 kB]
+Get:13 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libxpm4 amd64 1:3.5.12-1ubuntu0.20.04.1 [34.6 kB]Get:14 http://azure.archive.ubuntu.com/ubuntu focal/universe amd64 libonig5 amd64 6.9.4-1 [142 kB]
+Get:15 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 php7.4-gd amd64 1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1 [27.9 kB]
+Get:16 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 php7.4-mbstring amd64 1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1 [395 kB]
+Get:17 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 php7.4-mysql amd64 1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1 [121 kB]
+Get:18 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 php7.4-xml amd64 1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1 [97.7 kB]
+Get:19 http://ppa.launchpad.net/ondrej/php/ubuntu focal/main amd64 php7.4-zip amd64 1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1 [21.7 kB]
+Fetched 2753 kB in 0s (25.4 MB/s)
+Selecting previously unselected package fonts-dejavu-core.
+(Reading database ... 84959 files and directories currently installed.)
+Preparing to unpack .../00-fonts-dejavu-core_2.37-1_all.deb ...
+Unpacking fonts-dejavu-core (2.37-1) ...
+Selecting previously unselected package fontconfig-config.
+Preparing to unpack .../01-fontconfig-config_2.13.1-2ubuntu3_all.deb ...
+Unpacking fontconfig-config (2.13.1-2ubuntu3) ...
+Selecting previously unselected package libfontconfig1:amd64.
+Preparing to unpack .../02-libfontconfig1_2.13.1-2ubuntu3_amd64.deb ...
+Unpacking libfontconfig1:amd64 (2.13.1-2ubuntu3) ...
+Selecting previously unselected package libjpeg-turbo8:amd64.
+Preparing to unpack .../03-libjpeg-turbo8_2.0.3-0ubuntu1.20.04.3_amd64.deb ...
+Unpacking libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.3) ...
+Selecting previously unselected package libjpeg8:amd64.
+Preparing to unpack .../04-libjpeg8_8c-2ubuntu8_amd64.deb ...
+Unpacking libjpeg8:amd64 (8c-2ubuntu8) ...
+Selecting previously unselected package libjbig0:amd64.
+Preparing to unpack .../05-libjbig0_2.1-3.1ubuntu0.20.04.1_amd64.deb ...
+Unpacking libjbig0:amd64 (2.1-3.1ubuntu0.20.04.1) ...
+Selecting previously unselected package libwebp6:amd64.
+Preparing to unpack .../06-libwebp6_0.6.1-2ubuntu0.20.04.2_amd64.deb ...
+Unpacking libwebp6:amd64 (0.6.1-2ubuntu0.20.04.2) ...
+Selecting previously unselected package libtiff5:amd64.
+Preparing to unpack .../07-libtiff5_4.1.0+git191117-2ubuntu0.20.04.8_amd64.deb ...
+Unpacking libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.8) ...
+Selecting previously unselected package libxpm4:amd64.
+Preparing to unpack .../08-libxpm4_1%3a3.5.12-1ubuntu0.20.04.1_amd64.deb ...
+Unpacking libxpm4:amd64 (1:3.5.12-1ubuntu0.20.04.1) ...
+Selecting previously unselected package libgd3:amd64.
+Preparing to unpack .../09-libgd3_2.3.3-9+ubuntu20.04.1+deb.sury.org+1_amd64.deb ...
+Unpacking libgd3:amd64 (2.3.3-9+ubuntu20.04.1+deb.sury.org+1) ...
+Selecting previously unselected package libonig5:amd64.
+Preparing to unpack .../10-libonig5_6.9.4-1_amd64.deb ...
+Unpacking libonig5:amd64 (6.9.4-1) ...
+Selecting previously unselected package libzip4:amd64.
+Preparing to unpack .../11-libzip4_1.7.3-1+ubuntu20.04.1+deb.sury.org+2_amd64.deb ...
+Unpacking libzip4:amd64 (1.7.3-1+ubuntu20.04.1+deb.sury.org+2) ...
+Selecting previously unselected package php7.4-bcmath.
+Preparing to unpack .../12-php7.4-bcmath_1%3a7.4.33-6+ubuntu20.04.1+deb.sury.org+1_amd64.deb ...
+Unpacking php7.4-bcmath (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Selecting previously unselected package php7.4-curl.
+Preparing to unpack .../13-php7.4-curl_1%3a7.4.33-6+ubuntu20.04.1+deb.sury.org+1_amd64.deb ...
+Unpacking php7.4-curl (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Selecting previously unselected package php7.4-gd.
+Preparing to unpack .../14-php7.4-gd_1%3a7.4.33-6+ubuntu20.04.1+deb.sury.org+1_amd64.deb ...
+Unpacking php7.4-gd (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Selecting previously unselected package php7.4-mbstring.
+Preparing to unpack .../15-php7.4-mbstring_1%3a7.4.33-6+ubuntu20.04.1+deb.sury.org+1_amd64.deb ...
+Unpacking php7.4-mbstring (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Selecting previously unselected package php7.4-mysql.
+Preparing to unpack .../16-php7.4-mysql_1%3a7.4.33-6+ubuntu20.04.1+deb.sury.org+1_amd64.deb ...
+Unpacking php7.4-mysql (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Selecting previously unselected package php7.4-xml.
+Preparing to unpack .../17-php7.4-xml_1%3a7.4.33-6+ubuntu20.04.1+deb.sury.org+1_amd64.deb ...
+Unpacking php7.4-xml (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Selecting previously unselected package php7.4-zip.
+Preparing to unpack .../18-php7.4-zip_1%3a7.4.33-6+ubuntu20.04.1+deb.sury.org+1_amd64.deb ...
+Unpacking php7.4-zip (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Setting up php7.4-xml (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+
+Creating config file /etc/php/7.4/mods-available/dom.ini with new version
+
+Creating config file /etc/php/7.4/mods-available/simplexml.ini with new version
+
+Creating config file /etc/php/7.4/mods-available/xml.ini with new version
+
+Creating config file /etc/php/7.4/mods-available/xmlreader.ini with new version
+
+Creating config file /etc/php/7.4/mods-available/xmlwriter.ini with new version
+
+Creating config file /etc/php/7.4/mods-available/xsl.ini with new version
+Setting up libxpm4:amd64 (1:3.5.12-1ubuntu0.20.04.1) ...
+Setting up php7.4-curl (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+
+Creating config file /etc/php/7.4/mods-available/curl.ini with new version
+Setting up php7.4-mysql (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+
+Creating config file /etc/php/7.4/mods-available/mysqlnd.ini with new version
+
+Creating config file /etc/php/7.4/mods-available/mysqli.ini with new version
+
+Creating config file /etc/php/7.4/mods-available/pdo_mysql.ini with new version
+Setting up php7.4-bcmath (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+
+Creating config file /etc/php/7.4/mods-available/bcmath.ini with new version
+Setting up libzip4:amd64 (1.7.3-1+ubuntu20.04.1+deb.sury.org+2) ...
+Setting up libjbig0:amd64 (2.1-3.1ubuntu0.20.04.1) ...
+Setting up php7.4-zip (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+
+Creating config file /etc/php/7.4/mods-available/zip.ini with new version
+Setting up libwebp6:amd64 (0.6.1-2ubuntu0.20.04.2) ...
+Setting up fonts-dejavu-core (2.37-1) ...
+Setting up libjpeg-turbo8:amd64 (2.0.3-0ubuntu1.20.04.3) ...
+Setting up libonig5:amd64 (6.9.4-1) ...
+Setting up libjpeg8:amd64 (8c-2ubuntu8) ...
+Setting up fontconfig-config (2.13.1-2ubuntu3) ...
+Setting up php7.4-mbstring (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+
+Creating config file /etc/php/7.4/mods-available/mbstring.ini with new version
+Setting up libtiff5:amd64 (4.1.0+git191117-2ubuntu0.20.04.8) ...
+Setting up libfontconfig1:amd64 (2.13.1-2ubuntu3) ...
+Setting up libgd3:amd64 (2.3.3-9+ubuntu20.04.1+deb.sury.org+1) ...
+Setting up php7.4-gd (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+
+Creating config file /etc/php/7.4/mods-available/gd.ini with new version
+Processing triggers for libc-bin (2.31-0ubuntu9.9) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for libapache2-mod-php7.4 (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Processing triggers for php7.4-cli (1:7.4.33-6+ubuntu20.04.1+deb.sury.org+1) ...
+Resolving phoronix-test-suite.com (phoronix-test-suite.com)... 192.211.48.82
+Connecting to phoronix-test-suite.com (phoronix-test-suite.com)|192.211.48.82|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 555634 (543K) [application/x-debian-package]
+Saving to: ‘phoronix-test-suite_7.8.0_all.deb’
+
+phoronix-test-suite_7.8.0_all 100%[=================================================>] 542.61K   928KB/s    in 0.6s
+
+2023-07-27 09:37:23 (928 KB/s) - ‘phoronix-test-suite_7.8.0_all.deb’ saved [555634/555634]
+
+azureuser@VM1:~$ sudo apt install gdebi-core
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following NEW packages will be installed:
+  gdebi-core
+0 upgraded, 1 newly installed, 0 to remove and 9 not upgraded.
+Need to get 116 kB of archives.
+After this operation, 876 kB of additional disk space will be used.
+Get:1 http://azure.archive.ubuntu.com/ubuntu focal/universe amd64 gdebi-core all 0.9.5.7+nmu3 [116 kB]
+Fetched 116 kB in 0s (3823 kB/s)
+Selecting previously unselected package gdebi-core.
+(Reading database ... 85195 files and directories currently installed.)
+Preparing to unpack .../gdebi-core_0.9.5.7+nmu3_all.deb ...
+Unpacking gdebi-core (0.9.5.7+nmu3) ...
+Setting up gdebi-core (0.9.5.7+nmu3) ...
+Processing triggers for man-db (2.9.1-1) ...
+azureuser@VM1:~$ sudo gdebi phoronix-test-suite_7.8.0_all.deb
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+Reading state information... Done
+
+An Automated, Open-Source Testing Framework
+ The Phoronix Test Suite is the most comprehensive testing and benchmarking platform available for the Linux operating system. This software is designed to effectively carry out both qualitative and quantitative benchmarks in a clean, reproducible, and easy-to-use manner.  The Phoronix Test Suite consists of a lightweight processing core (pts-core) with each benchmark consisting of an XML-based profile with related resource scripts. The process from the benchmark installation, to the actual benchmarking, to the parsing of important hardware and software components is heavily automated and completely repeatable, asking users only for confirmation of actions.  The Phoronix Test Suite integrates with OpenBenchmarking.org for managing of test profiles and suites, optional collaborative results sharing and comparisons, and other cloud-based functionality.
+Do you want to install the software package? [y/N]:y
+/usr/bin/gdebi:113: FutureWarning: Possible nested set at position 1
+  c = findall("[[(](\S+)/\S+[])]", msg)[0].lower()
+Selecting previously unselected package phoronix-test-suite.
+(Reading database ... 85267 files and directories currently installed.)
+Preparing to unpack phoronix-test-suite_7.8.0_all.deb ...
+Unpacking phoronix-test-suite (7.8.0) ...
+Setting up phoronix-test-suite (7.8.0) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for mime-support (3.64ubuntu1) ...
+azureuser@VM1:~$ phoronix-test-suite --version
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+NOTICE: The following PHP extensions are OPTIONAL but recommended:
+
+Bzip2     The bzcompress/bzip2 support can be used for greater file compression.
+SQLite3   SQLite3 is required when running a Phoromatic server.
+
+
+Phoronix Test Suite v7.8.0
+User Agreement
+
+Phoronix Test Suite User Agreement & Notices:
+
+- The Phoronix Test Suite is open-source and licensed under the
+GNU GPLv3. However, some tests supported by the Phoronix Test
+Suite are not open-source software or available for free of
+charge.
+
+- The Phoronix Test Suite contains tests which may stress your
+system and in some cases could exhibit stability problems of the
+system's hardware or software configuration. The Phoronix Test
+Suite is provided WITHOUT ANY WARRANTY. In no event shall
+OpenBenchmarking.org, Phoromatic, Phoronix Media, the Phoronix
+Test Suite, or any associated stakeholder be liable to any party
+for any direct or indirect damages for any use of
+OpenBenchmarking.org -- including, without limitation, any lost
+profits, business interruption, loss of programs, loss of
+programmed data, or otherwise.
+
+- For enterprise support, sponsorship, or other professional
+inquiries, contact phoronix@phoronix.com. Community support can
+be found in the Phoronix Forums at
+http://www.phoronix.com/forums/.
+
+- If you opt to submit your test results to OpenBenchmarking.org,
+the final results as well as basic hardware and software details
+(what is shown in the results viewer) will be shared and publicly
+accessible through http://www.openbenchmarking.org/.
+
+- Public bug reports, feature requests, and other issues can be
+brought up in the Phoronix Test Suite forums, mailing list, or a
+direct email to Phoronix Media.
+
+Anonymous Usage Reporting / Statistics: If enabling the anonymous
+usage reporting / statistics feature, some information about the
+Phoronix Test Suite runs will be submitted to
+OpenBenchmarking.org. This information is used for analytical
+purposes, including but not limited to, determining the most
+popular tests / suites and calculating average run-times for
+different test profiles. The test results are not reported in
+this process nor the installed software / hardware information,
+but ambient information about the testing process. This
+information is stored anonymously. More information on this
+feature is available with the included documentation.
+
+For more information on the Phoronix Test Suite and its features,
+visit http://www.phoronix-test-suite.com/ or view the included
+documentation.
+
+    Do you agree to these terms and wish to proceed (Y/n): y
+    Enable anonymous usage / statistics reporting (Y/n): y
+
+
+AN OUTDATED VERSION OF THE PHORONIX TEST SUITE IS INSTALLED.
+THE VERSION IN USE IS 7.8.0 (7800), BUT THE LATEST IS PTS-CORE 10840.
+VISIT HTTP://WWW.PHORONIX-TEST-SUITE.COM/ TO UPDATE THIS SOFTWARE.
+
+
+Phoronix Test Suite v7.8.0 (Folldal)
+
+The **Phoronix Test Suite** is the most comprehensive testing and benchmarking platform available for Linux, Solaris, OS X, and BSD operating systems. The Phoronix Test Suite allows for carrying out tests in a fully automated manner from test installation to execution and reporting. All tests are meant to be easily reproducible, easy-to-use, and support fully automated execution. The Phoronix Test Suite is open-source under the GNU GPLv3 license and is developed by Phoronix Media in cooperation with partners.
+
+View the included PDF / HTML documentation or visit http://www.phoronix-test-suite.com/ for full details.
+
+TEST INSTALLATION
+
+    force-install         [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    install               [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    install-dependencies  [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    make-download-cache
+    remove-installed-test [Test]
+
+TESTING
+
+    auto-compare
+    benchmark          [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    estimate-run-time  [Test | Suite | OpenBenchmarking ID | Test Result]
+    finish-run         [Test Result]
+    run                [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    run-random-tests
+    run-tests-in-suite
+    stress-run         [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+
+BATCH TESTING
+
+    batch-benchmark   [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    batch-install     [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    batch-run         [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    batch-setup
+    default-benchmark [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    default-run       [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    internal-run      [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+
+OPENBENCHMARKING.ORG
+
+    clone-result                  [OpenBenchmarking ID]  ...
+    list-recommended-tests
+    make-openbenchmarking-cache
+    openbenchmarking-changes
+    openbenchmarking-launcher
+    openbenchmarking-login
+    openbenchmarking-refresh
+    openbenchmarking-repositories
+    upload-result                 [Test Result]
+    upload-test-profile
+    upload-test-suite
+
+SYSTEM
+
+    diagnostics
+    interactive
+    php-conf
+    system-info
+    system-sensors
+
+INFORMATION
+
+    info                          [Test | Suite | OpenBenchmarking ID | Test Result]
+    list-available-suites
+    list-available-tests
+    list-available-virtual-suites
+    list-installed-dependencies
+    list-installed-suites
+    list-installed-tests
+    list-missing-dependencies
+    list-not-installed-tests
+    list-possible-dependencies
+    list-saved-results
+    list-test-usage
+    list-unsupported-tests
+    search
+
+ASSET CREATION
+
+    build-suite
+    debug-benchmark           [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    debug-install             [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    debug-result-parser       [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    debug-test-download-links [Test | Suite | OpenBenchmarking ID | Test Result]
+    download-test-files       [Test | Suite | OpenBenchmarking ID | Test Result]  ...
+    result-file-to-suite      [Test Result]
+    validate-result-file
+    validate-test-profile
+    validate-test-suite
+
+RESULT MANAGEMENT
+
+    analyze-all-runs                 [Test Result]
+    auto-sort-result-file            [Test Result]
+    edit-result-file                 [Test Result]
+    extract-from-result-file         [Test Result]
+    merge-results                    [Test Result]  ...
+    refresh-graphs                   [Test Result]
+    remove-from-result-file          [Test Result]
+    remove-result                    [Test Result]
+    rename-identifier-in-result-file [Test Result]
+    rename-result-file               [Test Result]
+    reorder-result-file              [Test Result]
+    result-file-to-csv               [Test Result]
+    result-file-to-json              [Test Result]
+    result-file-to-pdf               [Test Result]
+    result-file-to-text              [Test Result]
+    show-result                      [Test Result]
+    winners-and-losers               [Test Result]
+
+OTHER
+
+    debug-dependency-handler
+    debug-render-test
+    debug-self-test
+    help
+    version
+
+MODULES
+
+    auto-load-module
+    list-modules
+    module-info      [Phoronix Test Suite Module]
+    module-setup     [Phoronix Test Suite Module]
+    test-module      [Phoronix Test Suite Module]
+    unload-module
+
+USER CONFIGURATION
+
+    enterprise-setup
+    network-info
+    network-setup
+    user-config-reset
+    user-config-set
+
+WEB / GUI SUPPORT
+
+    gui
+    start-remote-gui-server
+    start-ws-server
+
+PHOROMATIC
+
+    start-phoromatic-server
+
+
+azureuser@VM1:~$ phoronix-test-suit list-available-suites
+phoronix-test-suit: command not found
+azureuser@VM1:~$ phoronix-test-suite list-available-suites
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+Phoronix Test Suite v7.8.0
+Available Suites
+
+  pts/audio-encoding               - Audio Encoding                   System
+  pts/av1                          - AV1                              System
+  pts/bioinformatics               - Bioinformatics                   System
+  pts/browsers                     - Web Browsers                     System
+  pts/cad                          - CAD                              System
+  pts/chess                        - Chess Test Suite                 Processor
+  pts/compilation                  - Timed Code Compilation           System
+  pts/compiler                     - C/C++ Compiler Tests             Processor
+  pts/compression                  - Compression Tests                Processor
+  pts/computational                - Computational Test Suite         System
+  pts/computational-biology        - Computational Biology Test Suite Processor
+  pts/cpu                          - CPU / Processor Suite            Processor
+Updated OpenBenchmarking.org Repository Index
+pts: 526 Distinct Tests, 85 Suites
+
+Updated OpenBenchmarking.org Repository Index
+system: 41 Distinct Tests, 1 Suites
+
+  pts/cpu-massive                  - CPU Massive                      System
+* pts/creator                      - Creator Workloads                System
+  pts/cryptocurrency               - Cryptocurrency Benchmarks, CPU Mining Tests Processor
+  pts/cryptography                 - Cryptography                     Processor
+  pts/daily-kernel-tracker         - Daily Kernel Tracker             System
+  pts/daily-system-tracker         - Daily System Tracker             System
+  pts/database                     - Database Test Suite              System
+  pts/desktop-graphics             - Desktop Graphics                 System
+  pts/disk                         - Disk Test Suite                  Disk
+  pts/electronic-design            - Electronic Design                System
+  pts/encoding                     - Encoding                         System
+  pts/favorites                    - Favorites                        System
+  pts/finance                      - Finance                          System
+  pts/game-dev                     - Game Development                 System
+  pts/gaming                       - Gaming                           System
+  pts/gaming-closed                - Closed-Source Gaming             System
+  pts/gaming-free                  - Free Software Gaming             System
+  pts/gui-toolkits                 - GUI Toolkits                     Graphics
+  pts/hpc                          - HPC - High Performance Computing System
+  pts/imaging                      - Imaging                          System
+  pts/internet-speed               - Internet Speed                   System
+  pts/ioquake3-games               - Games Using The ioquake3 Engine  System
+  pts/iqc                          - Image Quality Comparison Suite   Graphics
+  pts/java                         - Java                             System
+  pts/java-opengl                  - Java OpenGL                      System
+  pts/kernel                       - Common Kernel Benchmarks         System
+  pts/linear-algebra               - Linear Algebra                   System
+  pts/linux-system                 - Linux System                     System
+  pts/machine-learning             - Machine Learning                 System
+  pts/memory                       - Memory Test Suite                Memory
+  pts/mesa                         - Mesa Test Suite                  Graphics
+  pts/molecular-dynamics           - Molecular Dynamics               System
+  pts/motherboard                  - Motherboard                      System
+  pts/mpi                          - MPI Benchmarks                   System
+* pts/multicore                    - Multi-Core                       Processor
+  pts/netbook                      - Netbook Test Suite               System
+  pts/network                      - Networking Test Suite            Network
+  pts/nevada                       - OpenSolaris Nevada Test Suite    System
+  pts/nvidia-gpu-compute           - NVIDIA GPU Compute               Graphics
+  pts/ocr                          - OCR                              System
+  pts/oneapi                       - Intel oneAPI                     System
+  pts/opencl                       - OpenCL                           System
+  pts/opengl-demos                 - OpenGL Demos Test Suite          System
+  pts/opengl-workstation           - OpenGL Workstation Test Suite    System
+  pts/productivity                 - Productivity                     System
+  pts/programmer                   - Programmer / Developer System Benchmarks System
+  pts/pts-desktop-live             - PTS Desktop Live                 System
+  pts/python                       - Python                           System
+  pts/quantum-mechanics            - Quantum Mechanics                System
+  pts/ray-tracing                  - Ray-Tracing Test Suite           System
+  pts/raytracing                   - Raytracing                       System
+* pts/renderers                    - Renderers                        Processor
+  pts/scientific-computing         - Scientific Computing             System
+  pts/sdr                          - Software Defined Radio           System
+  pts/server                       - Server                           System
+  pts/server-cpu-tests             - Server CPU Tests                 Processor
+  pts/server-memory                - Server Memory                    Memory
+* pts/single-threaded              - Single-Threaded                  System
+  pts/speech                       - Speech                           System
+  pts/steam                        - Steam                            Graphics
+  pts/telephony                    - Telephony                        System
+  pts/texture-compression          - Texture Compression              System
+  pts/ue4                          - Unreal Engine 4 Tech Demos On Linux Graphics
+  pts/unigine                      - Unigine Test Suite               Graphics
+  pts/universe                     - Universe Test Suite              System
+  pts/universe-cli                 - Universe CLI Test Suite          System
+  pts/universe-x                   - Universe X Test Suite            System
+  pts/video-encoding               - Video Encoding                   System
+  pts/vulkan-compute               - Vulkan Compute                   Graphics
+  pts/vulkan-rt                    - Vulkan Ray-Tracing               Graphics
+  pts/workstation                  - Common Workstation Benchmarks    System
+  pts/workstation-graphics         - Workstation Graphics             Graphics
+  pts/xrender                      - X Render Extension Testing       Graphics
+  system/collection                - Collection                       System
+
+* Indicates a partially supported suite.
+
+
+azureuser@VM1:~$ phoronix-test-suit list-available-tests
+phoronix-test-suit: command not found
+azureuser@VM1:~$ phoronix-test-suite list-available-tests
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+Phoronix Test Suite v7.8.0
+Available Tests
+
+pts/ai-benchmark               - AI Benchmark Alpha                  System
+pts/aircrack-ng                - Aircrack-ng                         Processor
+pts/amg                        - Algebraic Multi-Grid Benchmark      Processor
+pts/aobench                    - AOBench                             Processor
+pts/aom-av1                    - AOM AV1                             Processor
+pts/apache                     - Apache HTTP Server                  System
+pts/apache-siege               - Apache Siege                        System
+pts/appleseed                  - Appleseed                           System
+pts/arrayfire                  - ArrayFire                           Processor
+pts/ashes-escalation           - Ashes of the Singulairty: Escalation Graphics
+pts/askap                      - ASKAP                               System
+pts/asmfish                    - asmFish                             Processor
+pts/astcenc                    - ASTC Encoder                        System
+pts/avifenc                    - libavif avifenc                     Processor
+pts/axs2mlperf                 - axs2mlperf                          System
+pts/basemark                   - Basemark GPU                        System
+pts/basis                      - Basis Universal                     System
+pts/batman-knight              - Batman: Arkham Knight               Graphics
+pts/batman-origins             - Batman: Arkham Origins              Graphics
+pts/betsy                      - Betsy GPU Compressor                Graphics
+pts/bioshock-infinite          - BioShock Infinite                   Graphics
+pts/blake2                     - BLAKE2                              Processor
+pts/blender                    - Blender                             System
+pts/blogbench                  - BlogBench                           Disk
+pts/blosc                      - C-Blosc                             Processor
+pts/bork                       - Bork File Encrypter                 Processor
+pts/botan                      - Botan                               Processor
+pts/brl-cad                    - BRL-CAD                             System
+pts/build-apache               - Timed Apache Compilation            Processor
+pts/build-clash                - Timed Clash Compilation             Processor
+pts/build-ffmpeg               - Timed FFmpeg Compilation            Processor
+pts/build-gcc                  - Timed GCC Compilation               Processor
+pts/build-gdb                  - Timed GDB GNU Debugger Compilation  Processor
+pts/build-gem5                 - Timed Gem5 Compilation              Processor
+pts/build-godot                - Timed Godot Game Engine Compilation Processor
+pts/build-imagemagick          - Timed ImageMagick Compilation       Processor
+pts/build-linux-kernel         - Timed Linux Kernel Compilation      Processor
+pts/build-llvm                 - Timed LLVM Compilation              Processor
+pts/build-mesa                 - Timed Mesa Compilation              Processor
+pts/build-mplayer              - Timed MPlayer Compilation           Processor
+pts/build-nodejs               - Timed Node.js Compilation           Processor
+pts/build-php                  - Timed PHP Compilation               Processor
+pts/build-python               - Timed CPython Compilation           Processor
+pts/build2                     - Build2                              Processor
+pts/bullet                     - Bullet Physics Engine               Processor
+pts/byte                       - BYTE Unix Benchmark                 Processor
+pts/c-ray                      - C-Ray                               Processor
+pts/cachebench                 - CacheBench                          Processor
+pts/caffe                      - Caffe                               System
+pts/cassandra                  - Apache Cassandra                    System
+pts/chia-vdf                   - Chia Blockchain VDF                 Processor
+pts/civilization-vi            - Civilization VI                     Graphics
+pts/cl-mem                     - cl-mem                              Graphics
+pts/clickhouse                 - ClickHouse                          System
+pts/clomp                      - CLOMP                               Processor
+pts/cloudsuite-da              - CloudSuite Data Analytics           System
+pts/cloudsuite-ga              - CloudSuite Graph Analytics          System
+pts/cloudsuite-ma              - CloudSuite In-Memory Analytics      System
+pts/cloudsuite-ms              - CloudSuite Media Streaming          System
+pts/cloudsuite-ws              - CloudSuite Web Serving              System
+pts/cloverleaf                 - CloverLeaf                          Processor
+pts/clpeak                     - clpeak                              Graphics
+pts/cockroach                  - CockroachDB                         System
+pts/coh2                       - Company of Heroes 2                 Graphics
+pts/comd-cl                    - CoMD OpenCL                         System
+pts/compilebench               - Compile Bench                       Disk
+pts/compress-7zip              - 7-Zip Compression                   Processor
+pts/compress-gzip              - Gzip Compression                    Processor
+pts/compress-lz4               - LZ4 Compression                     Processor
+pts/compress-pbzip2            - Parallel BZIP2 Compression          Processor
+pts/compress-rar               - RAR Compression                     System
+pts/compress-xz                - XZ Compression                      Processor
+pts/compress-zstd              - Zstd Compression                    Processor
+pts/core-latency               - Core-Latency                        Processor
+pts/coremark                   - Coremark                            Processor
+pts/couchdb                    - Apache CouchDB                      System
+pts/cp2k                       - CP2K Molecular Dynamics             Processor
+pts/cpp-perf-bench             - CppPerformanceBenchmarks            System
+pts/cpuminer-opt               - Cpuminer-Opt                        Processor
+pts/crafty                     - Crafty                              Processor
+pts/cryptopp                   - Crypto++                            Processor
+pts/csgo                       - Counter-Strike: Global Offensive    Graphics
+pts/ctx-clock                  - ctx_clock                           System
+pts/cuda-mini-nbody            - CUDA Mini-Nbody                     Graphics
+pts/cyberpunk2077              - Cyberpunk 2077                      Graphics
+pts/cyclictest                 - Cyclictest                          System
+pts/cython-bench               - Cython Benchmark                    Processor
+pts/dacapobench                - DaCapo Benchmark                    Processor
+pts/daphne                     - Darmstadt Automotive Parallel Heterogeneous Suite System
+pts/dav1d                      - dav1d                               Processor
+pts/dbench                     - Dbench                              Disk
+pts/ddnet                      - DDraceNetwork                       Graphics
+pts/deeprec                    - DeepRec                             System
+pts/deepsparse                 - Neural Magic DeepSparse             System
+pts/deepspeech                 - DeepSpeech                          Processor
+pts/deus-exmd                  - Deus Ex: Mankind Divided            Graphics
+pts/dirt-rally                 - DiRT Rally                          Graphics
+pts/dirt-rally2                - DiRT Rally 2.0                      Graphics
+pts/dirt-showdown              - DiRT Showdown                       Graphics
+pts/dolfyn                     - Dolfyn                              Processor
+pts/dota2                      - Dota 2                              Graphics
+pts/dow3                       - Dawn of War III                     Graphics
+pts/draco                      - Google Draco                        System
+pts/dragonflydb                - Dragonflydb                         System
+pts/ebizzy                     - ebizzy                              Processor
+pts/ecp-candle                 - ECP-CANDLE                          System
+pts/embree                     - Embree                              Processor
+pts/encode-flac                - FLAC Audio Encoding                 Processor
+pts/encode-mp3                 - LAME MP3 Encoding                   Processor
+pts/encode-opus                - Opus Codec Encoding                 Processor
+pts/encode-wavpack             - WavPack Audio Encoding              System
+pts/espeak                     - eSpeak-NG Speech Engine             Processor
+pts/et                         - Enemy Territory                     Graphics
+pts/etcd                       - etcd                                System
+pts/etcpak                     - Etcpak                              Processor
+pts/ethr                       - Ethr                                Network
+pts/etlegacy                   - ET: Legacy                          Graphics
+pts/etqw                       - ET: Quake Wars                      Graphics
+pts/etqw-demo                  - ET: Quake Wars Demo                 Graphics
+pts/etqw-demo-iqc              - ET: Quake Wars Image Quality        System
+pts/etxreal                    - ETXreaL                             Graphics
+pts/f12015                     - F1 2015                             Graphics
+pts/f12017                     - F1 2017                             Graphics
+pts/f12018                     - F1 2018                             Graphics
+pts/f12020                     - F1 2020                             Graphics
+pts/f12021                     - F1 2021                             Graphics
+pts/f122                       - F1 22                               Graphics
+pts/fahbench                   - FAHBench                            Graphics
+pts/faiss                      - Faiss                               System
+pts/fast-cli                   - fast-cli                            Network
+pts/ffmpeg                     - FFmpeg                              Processor
+pts/ffte                       - FFTE                                Processor
+pts/fftw                       - FFTW                                Processor
+pts/fhourstones                - Fhourstones                         Processor
+pts/financebench               - FinanceBench                        System
+pts/fio                        - Flexible IO Tester                  Disk
+pts/fluidx3d                   - FluidX3D                            Graphics
+pts/fs-mark                    - FS-Mark                             Disk
+pts/gcrypt                     - Gcrypt Library                      Processor
+pts/geekbench                  - Geekbench                           System
+pts/geexlab                    - GeeXLab                             Graphics
+pts/geexlab-rt                 - GeeXLab Vulkan Ray-Tracing Demo     Graphics
+pts/gfxbench                   - GFXBench                            Graphics
+pts/git                        - Git                                 System
+pts/gl-vs-vk                   - GL-vs-VK                            Graphics
+pts/glibc-bench                - Glibc Benchmarks                    OS
+pts/glmark2                    - GLmark2                             Graphics
+pts/gmpbench                   - GNU GMP GMPbench                    Processor
+pts/gnupg                      - GnuPG                               System
+pts/go-benchmark               - Go Benchmarks                       Processor
+pts/gpaw                       - GPAW                                System
+pts/gputest                    - GpuTest                             Graphics
+pts/graph500                   - Graph500                            System
+pts/graphics-magick            - GraphicsMagick                      Processor
+pts/gravitymark                - GravityMark                         Graphics
+pts/gromacs                    - GROMACS                             System
+pts/gta5                       - Grand Theft Auto V                  Graphics
+pts/hackbench                  - Hackbench                           Processor
+pts/hammerdb-mariadb           - HammerDB - MariaDB                  System
+pts/hammerdb-postgresql        - HammerDB - PostgreSQL               System
+pts/hashcat                    - Hashcat                             Graphics
+pts/hbase                      - Apache HBase                        System
+pts/hdparm-read                - hdparm Timed Disk Reads             Disk
+pts/heffte                     - HeFFTe - Highly Efficient FFT for Exascale Processor
+pts/helsing                    - Helsing                             Processor
+pts/himeno                     - Himeno Benchmark                    Processor
+pts/hint                       - Hierarchical INTegration            System
+pts/hitman                     - HITMAN                              Graphics
+pts/hitman2                    - HITMAN 2                            Graphics
+pts/hitman3                    - HITMAN 3                            Graphics
+pts/hl2-ep2                    - Half-Life 2: Episode Two            Graphics
+pts/hmmer                      - Timed HMMer Search                  Processor
+pts/hpcc                       - HPC Challenge                       Processor
+pts/hpcg                       - High Performance Conjugate Gradient Processor
+pts/idle                       - Timed Idle                          System
+pts/idle-power-usage           - Idle Power Usage                    System
+pts/incompact3d                - Xcompact3d Incompact3d              Processor
+pts/indigobench                - IndigoBench                         System
+pts/influxdb                   - InfluxDB                            System
+pts/insurgency                 - Insurgency                          Graphics
+pts/intel-mlc                  - Intel Memory Latency Checker        Memory
+pts/intel-mpi                  - Intel MPI Benchmarks                System
+pts/intel-tensorflow           - Intel TensorFlow                    System
+pts/ior                        - IOR                                 Disk
+pts/ipc-benchmark              - IPC_benchmark                       Processor
+pts/iperf                      - iPerf                               Network
+pts/j2dbench                   - Java 2D Microbenchmark              Graphics
+pts/java-gradle-perf           - Java Gradle Build                   Processor
+pts/java-jmh                   - Java JMH                            System
+pts/java-scimark2              - Java SciMark                        Processor
+pts/jgfxbat                    - Java Graphics Basic Acceptance Test Processor
+pts/john-the-ripper            - John The Ripper                     Processor
+pts/jpegxl                     - JPEG XL libjxl                      Processor
+pts/jpegxl-decode              - JPEG XL Decoding libjxl             Processor
+pts/juliagpu                   - JuliaGPU                            System
+pts/jxrendermark               - JXRenderMark                        Graphics
+pts/keydb                      - KeyDB                               System
+pts/kripke                     - Kripke                              System
+pts/kvazaar                    - Kvazaar                             Processor
+pts/l4d2                       - Left 4 Dead 2                       Graphics
+pts/laghos                     - Laghos                              Processor
+pts/lammps                     - LAMMPS Molecular Dynamics Simulator Processor
+pts/lczero                     - LeelaChessZero                      Processor
+pts/leveldb                    - LevelDB                             Disk
+pts/libgav1                    - libgav1                             Processor
+pts/libplacebo                 - Libplacebo                          Graphics
+pts/libraw                     - LibRaw                              Processor
+pts/libxsmm                    - libxsmm                             Processor
+pts/liquid-dsp                 - Liquid-DSP                          Processor
+pts/luajit                     - LuaJIT                              Processor
+pts/luaradio                   - LuaRadio                            Processor
+pts/lulesh                     - LULESH                              Processor
+pts/lulesh-cl                  - Lulesh OpenCL                       System
+pts/luxcorerender              - LuxCoreRender                       Processor
+pts/luxmark                    - LuxMark                             System
+pts/lzbench                    - lzbench                             Processor
+pts/m-queens                   - m-queens                            Processor
+pts/madmax                     - Mad Max                             Graphics
+pts/mafft                      - Timed MAFFT Alignment               Processor
+pts/mandelbulbgpu              - MandelbulbGPU                       System
+pts/mandelgpu                  - MandelGPU                           System
+pts/mbw                        - MBW                                 Memory
+pts/memcached                  - Memcached                           System
+pts/memtier-benchmark          - Redis 7.0.12 + memtier_benchmark    System
+pts/mencoder                   - Mencoder                            Processor
+pts/metro2033-redux            - Metro 2033 Redux                    Graphics
+pts/metroll-redux              - Metro: Last Light Redux             Graphics
+pts/minibude                   - miniBUDE                            Processor
+pts/minife                     - miniFE                              Processor
+pts/minion                     - Minion                              Processor
+pts/mixbench                   - Mixbench                            Graphics
+pts/mkl-dnn                    - oneDNN MKL-DNN                      Processor
+pts/mlpack                     - Mlpack Benchmark                    System
+pts/mnn                        - Mobile Neural Network               System
+pts/mocassin                   - Monte Carlo Simulations of Ionised Nebulae Processor
+pts/montage                    - Montage Astronomical Image Mosaic Engine Processor
+pts/mpcbench                   - GNU MPC                             Processor
+pts/mrbayes                    - Timed MrBayes Analysis              Processor
+pts/mt-dgemm                   - ACES DGEMM                          Processor
+pts/multichase                 - Multichase Pointer Chaser           Processor
+pts/mutex                      - BenchmarkMutex                      System
+pts/n-queens                   - N-Queens                            Processor
+pts/namd                       - NAMD                                Processor
+pts/namd-cuda                  - NAMD CUDA                           Graphics
+pts/natron                     - Natron                              System
+pts/ncnn                       - NCNN                                System
+pts/neat                       - Nebular Empirical Analysis Tool     Processor
+pts/neatbench                  - NeatBench                           System
+pts/nekrs                      - nekRS                               Processor
+pts/nero2d                     - Open FMM Nero2D                     Processor
+pts/netperf                    - Netperf                             Network
+pts/nettle                     - Nettle                              Processor
+pts/network-loopback           - Loopback TCP Network Performance    Network
+pts/nginx                      - nginx                               System
+pts/ngspice                    - Ngspice                             Processor
+pts/node-express-loadtest      - Node.js Express HTTP Load Test      Processor
+pts/node-octane                - Node.js Octane Benchmark            Processor
+pts/node-web-tooling           - Node.js V8 Web Tooling Benchmark    Processor
+pts/novabench                  - Novabench                           System
+pts/npb                        - NAS Parallel Benchmarks             Processor
+pts/numenta-nab                - Numenta Anomaly Benchmark           System
+pts/numpy                      - Numpy Benchmark                     Processor
+pts/nuttcp                     - Nuttcp                              Network
+pts/nwchem                     - NWChem                              Processor
+pts/octanebench                - OctaneBench                         Graphics
+pts/oidn                       - Intel Open Image Denoise            Processor
+pts/oneapi-level-zero          - oneAPI Level Zero Tests             System
+pts/onednn                     - oneDNN                              Processor
+pts/onnx                       - ONNX Runtime                        System
+pts/open-porous-media          - Open Porous Media                   Processor
+pts/openarena                  - OpenArena                           Graphics
+pts/opencv                     - OpenCV                              System
+pts/opencv-bench               - OpenCV Benchmark                    Processor
+pts/opendwarfs                 - OpenDwarfs                          System
+pts/openems                    - OpenEMS                             System
+pts/openfoam                   - OpenFOAM                            Processor
+pts/openjpeg                   - OpenJPEG                            Processor
+pts/openradioss                - OpenRadioss                         Processor
+pts/openssl                    - OpenSSL                             Processor
+pts/openvino                   - OpenVINO                            System
+pts/openvkl                    - OpenVKL                             Processor
+pts/optcarrot                  - Optcarrot                           System
+pts/osbench                    - OSBench                             OS
+pts/ospray                     - OSPRay                              Processor
+pts/ospray-studio              - OSPRay Studio                       Processor
+pts/palabos                    - Palabos                             Processor
+pts/paraview                   - ParaView                            Graphics
+pts/parboil                    - Parboil                             Processor
+pts/pennant                    - Pennant                             Processor
+pts/perf-bench                 - perf-bench                          OS
+pts/perl-benchmark             - Perl Benchmarks                     Processor
+pts/petsc                      - PETSc                               System
+pts/pgbench                    - PostgreSQL                          System
+pts/php                        - PHP Micro Benchmarks                System
+pts/phpbench                   - PHPBench                            System
+pts/pjdfstest                  - Pjdfstest                           Disk
+pts/pjsip                      - PJSIP                               Processor
+pts/plaidml                    - PlaidML                             System
+pts/pmbench                    - pmbench                             Memory
+pts/polybench-c                - PolyBench-C                         Processor
+pts/polyhedron                 - Polyhedron Fortran Benchmarks       Processor
+pts/portal                     - Portal                              Graphics
+pts/portal2                    - Portal 2                            Graphics
+pts/postmark                   - PostMark                            Disk
+pts/povray                     - POV-Ray                             Processor
+pts/ppracer                    - Planet Penguin Racer                Graphics
+pts/prey                       - Prey                                Graphics
+pts/primesieve                 - Primesieve                          Processor
+pts/pts-self-test              - Phoronix Test Suite Self Test       System
+pts/pybench                    - PyBench                             System
+pts/pyhpc                      - PyHPC Benchmarks                    System
+pts/pymongo-inserts            - PyMongo Inserts                     System
+pts/pyperformance              - PyPerformance                       System
+pts/qgears2                    - QGears2                             Graphics
+pts/qmcpack                    - QMCPACK                             Processor
+pts/qmlbench                   - Qmlbench                            System
+pts/quadray                    - QuadRay                             Processor
+pts/quake2rtx                  - Quake II RTX                        Graphics
+pts/quake4                     - Quake 4                             Graphics
+pts/quantlib                   - QuantLib                            Processor
+pts/rabbitmq                   - RabbitMQ                            System
+pts/radiance                   - Radiance Benchmark                  Processor
+pts/ramspeed                   - RAMspeed SMP                        Memory
+pts/rav1e                      - rav1e                               Processor
+pts/rays1bench                 - rays1bench                          Processor
+pts/rbenchmark                 - R Benchmark                         Processor
+pts/realsr-ncnn                - RealSR-NCNN                         Graphics
+pts/redis                      - Redis                               System
+pts/relion                     - RELION                              Processor
+pts/remhos                     - Remhos                              Processor
+pts/renaissance                - Renaissance                         Processor
+pts/riseofthetombraider        - Rise of the Tomb Raider             Graphics
+pts/rnnoise                    - RNNoise                             Processor
+pts/rocksdb                    - RocksDB                             System
+pts/rodinia                    - Rodinia                             Processor
+pts/rtiv                       - Ray Tracing In Vulkan               Graphics
+pts/rust-mandel                - Rust Mandelbrot                     Processor
+pts/rust-prime                 - Rust Prime Benchmark                Processor
+pts/sam2017                    - Serious Sam Fusion 2017             Graphics
+pts/schbench                   - Schbench                            System
+pts/scikit-learn               - Scikit-Learn                        System
+pts/scimark2                   - SciMark                             Processor
+pts/securemark                 - SecureMark                          Processor
+pts/serial-loopback            - Serial Loopback Test                System
+pts/shadowofthetombraider      - Shadow of the Tomb Raider           Graphics
+pts/shoc                       - SHOC Scalable HeterOgeneous Computing Graphics
+pts/simdjson                   - simdjson                            Processor
+pts/smallpt                    - Smallpt                             Processor
+pts/smallpt-gpu                - SmallPT GPU                         System
+pts/smart                      - SMART Disk Self-Report              Disk
+pts/smhasher                   - SMHasher                            Processor
+pts/sockperf                   - Sockperf                            OS
+pts/spacy                      - spaCy                               System
+pts/spark                      - Apache Spark                        System
+pts/spec-cpu2017               - SPEC CPU 2017                       System
+pts/spec-jbb2015               - SPECjbb 2015                        System
+pts/specfem3d                  - SPECFEM3D                           Processor
+pts/specviewperf2020           - SPECViewPerf 2020                   Graphics
+pts/specviewperf9              - SPECViewPerf 9                      Graphics
+pts/speedtest-cli              - speedtest-cli                       Network
+pts/sqlite                     - SQLite                              Disk
+pts/sqlite-speedtest           - SQLite Speedtest                    System
+pts/srslte                     - srsLTE                              Processor
+pts/srsran                     - srsRAN Project                      Processor
+pts/ss3bfe                     - Serious Sam 3: BFE                  Graphics
+pts/stargate                   - Stargate Digital Audio Workstation  Processor
+pts/startup-time               - Application Start-up Time           Disk
+pts/stockfish                  - Stockfish                           Processor
+pts/strange-brigade            - Strange Brigade                     Graphics
+pts/stream                     - Stream                              Memory
+pts/stream-dynamic             - Stream-Dynamic                      Memory
+pts/stress-ng                  - Stress-NG                           System
+pts/stressapptest              - Stressful Application Test          Memory
+pts/sudokut                    - Sudokut                             Processor
+pts/sunflow                    - Sunflow Rendering System            System
+pts/supertuxkart               - SuperTuxKart                        Graphics
+pts/svt-av1                    - SVT-AV1                             Processor
+pts/svt-hevc                   - SVT-HEVC                            Processor
+pts/svt-vp9                    - SVT-VP9                             Processor
+pts/swet                       - Swet                                Processor
+pts/synthmark                  - Google SynthMark                    Processor
+pts/sysbench                   - Sysbench                            System
+pts/system-decompress-gzip     - System GZIP Decompression           Processor
+pts/system-decompress-tiff     - System Libtiff Decompression        Processor
+pts/system-libxml2             - System Libxml2 Parsing              Processor
+pts/systemd-boot-kernel        - Systemd Kernel Boot Time            Processor
+pts/systemd-boot-total         - Systemd Total Boot Time             System
+pts/systemd-boot-userspace     - Systemd Userspace Boot Time         Processor
+pts/t-test1                    - t-test1                             Memory
+pts/tachyon                    - Tachyon                             Processor
+pts/talos-principle            - The Talos Principle                 Graphics
+pts/tensorflow                 - TensorFlow                          System
+pts/tensorflow-lite            - TensorFlow Lite                     System
+pts/tesseract                  - Tesseract                           Graphics
+pts/thronesofbritannia         - A Total War Saga: THRONES OF BRITANNIA Graphics
+pts/tinymembench               - Tinymembench                        Memory
+pts/tiobench                   - Threaded I/O Tester                 Disk
+pts/tjbench                    - libjpeg-turbo tjbench               System
+pts/tnn                        - TNN                                 System
+pts/toktx                      - KTX-Software toktx                  System
+pts/toybrot                    - toyBrot Fractal Generator           Processor
+pts/trislam                    - Triangle Slammer                    Graphics
+pts/tscp                       - TSCP                                Processor
+pts/ttsiod-renderer            - TTSIOD 3D Renderer                  Processor
+pts/tungsten                   - Tungsten Renderer                   Processor
+pts/twtk                       - Total War: Three Kingdoms           Graphics
+pts/tww2                       - Total War: WARHAMMER II             Graphics
+pts/tww3                       - Total War: WARHAMMER III            Graphics
+pts/ue4-atlantis               - Atlantis Substance Demo             Graphics
+pts/ue4-elemental              - Elemental Demo                      Graphics
+pts/ue4-matinee                - Matinee Fight Scene Demo            Graphics
+pts/ue4-mountains              - Landscape Mountains Demo            Graphics
+pts/unigine-heaven             - Unigine Heaven                      Graphics
+pts/unigine-sanctuary          - Unigine Sanctuary                   Graphics
+pts/unigine-super              - Unigine Superposition               Graphics
+pts/unigine-tropics            - Unigine Tropics                     Graphics
+pts/unigine-valley             - Unigine Valley                      Graphics
+pts/unpack-firefox             - Unpacking Firefox                   System
+pts/unpack-linux               - Unpacking The Linux Kernel          Disk
+pts/unvanquished               - Unvanquished                        Graphics
+pts/urbanterror                - Urban Terror                        Graphics
+pts/ut2004-demo                - Unreal Tournament 2004 Demo         Graphics
+pts/uvg266                     - uvg266                              Processor
+pts/v-ray                      - Chaos Group V-RAY                   System
+pts/video-cpu-usage            - 1080p H.264 Video Playback          Graphics
+pts/viennacl                   - ViennaCL                            System
+pts/vkfft                      - VkFFT                               Graphics
+pts/vkmark                     - VKMark                              Graphics
+pts/vkpeak                     - vkpeak                              Graphics
+pts/vkresample                 - VkResample                          Graphics
+pts/vosk                       - VOSK Speech Recognition Toolkit     Processor
+pts/vpxenc                     - VP9 libvpx Encoding                 Processor
+pts/vvenc                      - VVenC                               Processor
+pts/waifu2x-ncnn               - Waifu2x-NCNN Vulkan                 Graphics
+pts/warsow                     - Warsow                              Graphics
+pts/webp                       - WebP Image Encode                   Processor
+pts/webp2                      - WebP2 Image Encode                  Processor
+pts/will-it-scale              - will-it-scale                       OS
+pts/wrf                        - WRF                                 System
+pts/x11perf                    - x11perf                             Graphics
+pts/x264                       - x264                                Processor
+pts/x265                       - x265                                Processor
+pts/xmrig                      - Xmrig                               Processor
+pts/xonotic                    - Xonotic                             Graphics
+pts/xplane11                   - X-Plane                             Graphics
+pts/xplane12                   - X-Plane                             Graphics
+pts/xsbench                    - Xsbench                             System
+pts/xsbench-cl                 - Xsbench OpenCL                      System
+pts/y-cruncher                 - Y-Cruncher                          Processor
+pts/yafaray                    - YafaRay                             Processor
+pts/yquake2                    - yquake2                             Graphics
+pts/z3                         - Z3 Theorem Prover                   Processor
+pts/zendnn-tensorflow          - AMD ZenDNN TensorFlow               System
+system/blender                 - Blender                             System
+system/blogbench               - BlogBench                           Disk
+system/clpeak                  - clpeak                              System
+system/compress-zstd           - Zstd Compression                    Processor
+system/cryptsetup              - Cryptsetup                          System
+system/darktable               - Darktable                           System
+system/dbench                  - Dbench                              Disk
+system/ethminer                - Ethereum Ethminer                   System
+system/fio                     - Flexible IO Tester                  Disk
+system/gegl                    - GEGL                                System
+system/gimp                    - GIMP                                System
+system/glmark2                 - GLmark2                             Graphics
+system/gmic                    - G'MIC                               System
+system/gnupg                   - GnuPG                               Processor
+system/gnuradio                - GNU Radio                           Processor
+system/hugin                   - Hugin                               System
+system/inkscape                - Inkscape                            System
+system/iozone                  - IOzone                              Disk
+system/libreoffice             - LibreOffice                         System
+system/mpv                     - MPV                                 System
+system/nginx                   - Nginx                               System
+system/ocrmypdf                - OCRMyPDF                            System
+system/octave-benchmark        - GNU Octave Benchmark                System
+system/openscad                - OpenSCAD                            System
+system/openssl                 - OpenSSL                             Processor
+system/opm                     - Open Porous Media                   Processor
+system/rawtherapee             - RawTherapee                         System
+system/redis                   - Redis Memtier / Redis Benchmark     System
+system/rsvg                    - librsvg                             System
+system/selenium                - Selenium                            System
+system/selenium-top-sites      - Time To Load + View Popular Websites System
+system/tesseract-ocr           - Tesseract OCR                       System
+system/wireguard               - WireGuard + Linux Networking Stack Stress Test Network
+
+azureuser@VM1:~$ install pts/n-queens
+install: missing destination file operand after 'pts/n-queens'
+Try 'install --help' for more information.
+azureuser@VM1:~$ phoronix -test-suites install pts/n-queens
+phoronix: command not found
+azureuser@VM1:~$ phoronix-test-suites install pts/n-queens
+phoronix-test-suites: command not found
+azureuser@VM1:~$ phoronix-test-suite install pts/n-queens
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:249
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:282
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:332
+
+The following dependencies are needed and will be installed:
+
+- build-essential
+- autoconf
+- mesa-utils
+- unzip
+- apt-file
+- unzip
+
+This process may take several minutes.
+Extracting templates from packages: 100%
+/usr/share/phoronix-test-suite/pts-core/external-test-dependencies/scripts/install-ubuntu-packages.sh: 24: --: not found
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  automake autotools-dev binutils binutils-common binutils-x86-64-linux-gnu
+  cpp cpp-9 dpkg-dev fakeroot g++ g++-9 gcc gcc-9 gcc-9-base
+  libalgorithm-diff-perl libalgorithm-diff-xs-perl libalgorithm-merge-perl
+  libapt-pkg-perl libasan5 libatomic1 libbinutils libc-dev-bin libc6-dev
+  libcc1-0 libcrypt-dev libctf-nobfd0 libctf0 libdpkg-perl libdrm-amdgpu1
+  libdrm-intel1 libdrm-nouveau2 libdrm-radeon1 libexporter-tiny-perl
+  libfakeroot libfile-fcntllock-perl libgcc-9-dev libgl1 libgl1-mesa-dri
+  libglapi-mesa libglvnd0 libglx-mesa0 libglx0 libgomp1 libisl22 libitm1
+  liblist-moreutils-perl libllvm12 liblsan0 libmpc3 libpciaccess0 libquadmath0
+  libregexp-assemble-perl libsensors-config libsensors5 libstdc++-9-dev
+  libtsan0 libubsan1 libvulkan1 libwayland-client0 libx11-xcb1 libxcb-dri2-0
+  libxcb-dri3-0 libxcb-glx0 libxcb-present0 libxcb-randr0 libxcb-shm0
+  libxcb-sync1 libxcb-xfixes0 libxfixes3 libxshmfence1 libxxf86vm1
+  linux-libc-dev m4 make manpages-dev mesa-vulkan-drivers
+Suggested packages:
+  autoconf-archive gnu-standards autoconf-doc libtool gettext binutils-doc
+  cpp-doc gcc-9-locales debian-keyring g++-multilib g++-9-multilib gcc-9-doc
+  gcc-multilib flex bison gdb gcc-doc gcc-9-multilib glibc-doc bzr lm-sensors
+  libstdc++-9-doc m4-doc make-doc zip
+The following NEW packages will be installed:
+  apt-file autoconf automake autotools-dev binutils binutils-common
+  binutils-x86-64-linux-gnu build-essential cpp cpp-9 dpkg-dev fakeroot g++
+  g++-9 gcc gcc-9 gcc-9-base libalgorithm-diff-perl libalgorithm-diff-xs-perl
+  libalgorithm-merge-perl libapt-pkg-perl libasan5 libatomic1 libbinutils
+  libc-dev-bin libc6-dev libcc1-0 libcrypt-dev libctf-nobfd0 libctf0
+  libdpkg-perl libdrm-amdgpu1 libdrm-intel1 libdrm-nouveau2 libdrm-radeon1
+  libexporter-tiny-perl libfakeroot libfile-fcntllock-perl libgcc-9-dev libgl1
+  libgl1-mesa-dri libglapi-mesa libglvnd0 libglx-mesa0 libglx0 libgomp1
+  libisl22 libitm1 liblist-moreutils-perl libllvm12 liblsan0 libmpc3
+  libpciaccess0 libquadmath0 libregexp-assemble-perl libsensors-config
+  libsensors5 libstdc++-9-dev libtsan0 libubsan1 libvulkan1 libwayland-client0
+  libx11-xcb1 libxcb-dri2-0 libxcb-dri3-0 libxcb-glx0 libxcb-present0
+  libxcb-randr0 libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxfixes3
+  libxshmfence1 libxxf86vm1 linux-libc-dev m4 make manpages-dev mesa-utils
+  mesa-vulkan-drivers unzip
+0 upgraded, 81 newly installed, 0 to remove and 9 not upgraded.
+Need to get 83.2 MB of archives.
+After this operation, 732 MB of additional disk space will be used.
+Get:1 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libapt-pkg-perl amd64 0.1.36build3 [68.5 kB]
+Get:2 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libexporter-tiny-perl all 1.002001-1 [35.5 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 liblist-moreutils-perl amd64 0.416-1build5 [55.5 kB]
+Get:4 http://azure.archive.ubuntu.com/ubuntu focal/universe amd64 libregexp-assemble-perl all 0.36-1 [77.5 kB]
+Get:5 http://azure.archive.ubuntu.com/ubuntu focal/universe amd64 apt-file all 3.2.2 [27.6 kB]
+Get:6 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 m4 amd64 1.4.18-4 [199 kB]
+Get:7 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 autoconf all 2.69-11.1 [321 kB]
+Get:8 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 autotools-dev all 20180224.1 [39.6 kB]
+Get:9 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 automake all 1:1.16.1-4ubuntu6 [522 kB]
+Get:10 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 binutils-common amd64 2.34-6ubuntu1.6 [207 kB]
+Get:11 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libbinutils amd64 2.34-6ubuntu1.6 [473 kB]
+Get:12 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libctf-nobfd0 amd64 2.34-6ubuntu1.6 [47.4 kB]
+Get:13 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libctf0 amd64 2.34-6ubuntu1.6 [46.6 kB]
+Get:14 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 binutils-x86-64-linux-gnu amd64 2.34-6ubuntu1.6 [1613 kB]
+Get:15 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 binutils amd64 2.34-6ubuntu1.6 [3376 B]
+Get:16 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libc-dev-bin amd64 2.31-0ubuntu9.9 [71.8 kB]
+Get:17 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 linux-libc-dev amd64 5.4.0-155.172 [1093 kB]
+Get:18 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libcrypt-dev amd64 1:4.4.10-10ubuntu4 [104 kB]
+Get:19 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libc6-dev amd64 2.31-0ubuntu9.9 [2519 kB]
+Get:20 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 gcc-9-base amd64 9.4.0-1ubuntu1~20.04.1 [19.4 kB]
+Get:21 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libisl22 amd64 0.22.1-1 [592 kB]
+Get:22 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libmpc3 amd64 1.1.0-1 [40.8 kB]
+Get:23 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 cpp-9 amd64 9.4.0-1ubuntu1~20.04.1 [7500 kB]
+Get:24 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 cpp amd64 4:9.3.0-1ubuntu2 [27.6 kB]
+Get:25 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libcc1-0 amd64 10.3.0-1ubuntu1~20.04 [48.8 kB]
+Get:26 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libgomp1 amd64 10.3.0-1ubuntu1~20.04 [102 kB]
+Get:27 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libitm1 amd64 10.3.0-1ubuntu1~20.04 [26.2 kB]
+Get:28 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libatomic1 amd64 10.3.0-1ubuntu1~20.04 [9284 B]
+Get:29 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libasan5 amd64 9.4.0-1ubuntu1~20.04.1 [2751 kB]
+Get:30 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 liblsan0 amd64 10.3.0-1ubuntu1~20.04 [835 kB]
+Get:31 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libtsan0 amd64 10.3.0-1ubuntu1~20.04 [2009 kB]
+Get:32 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libubsan1 amd64 10.3.0-1ubuntu1~20.04 [784 kB]
+Get:33 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libquadmath0 amd64 10.3.0-1ubuntu1~20.04 [146 kB]
+Get:34 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libgcc-9-dev amd64 9.4.0-1ubuntu1~20.04.1 [2359 kB]
+Get:35 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 gcc-9 amd64 9.4.0-1ubuntu1~20.04.1 [8274 kB]
+Get:36 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 gcc amd64 4:9.3.0-1ubuntu2 [5208 B]
+Get:37 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libstdc++-9-dev amd64 9.4.0-1ubuntu1~20.04.1 [1722 kB]
+Get:38 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 g++-9 amd64 9.4.0-1ubuntu1~20.04.1 [8420 kB]
+Get:39 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 g++ amd64 4:9.3.0-1ubuntu2 [1604 B]
+Get:40 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 make amd64 4.2.1-1.2 [162 kB]
+Get:41 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libdpkg-perl all 1.19.7ubuntu3.2 [231 kB]
+Get:42 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 dpkg-dev all 1.19.7ubuntu3.2 [679 kB]
+Get:43 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 build-essential amd64 12.8ubuntu1.1 [4664 B]
+Get:44 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libfakeroot amd64 1.24-1 [25.7 kB]
+Get:45 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 fakeroot amd64 1.24-1 [62.6 kB]
+Get:46 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libalgorithm-diff-perl all 1.19.03-2 [46.6 kB]
+Get:47 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libalgorithm-diff-xs-perl amd64 0.04-6 [11.3 kB]
+Get:48 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libalgorithm-merge-perl all 0.08-3 [12.0 kB]
+Get:49 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libdrm-amdgpu1 amd64 2.4.107-8ubuntu1~20.04.2 [18.6 kB]
+Get:50 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libpciaccess0 amd64 0.16-0ubuntu1 [17.9 kB]
+Get:51 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libdrm-intel1 amd64 2.4.107-8ubuntu1~20.04.2 [60.3 kB]
+Get:52 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libdrm-nouveau2 amd64 2.4.107-8ubuntu1~20.04.2 [16.6 kB]
+Get:53 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libdrm-radeon1 amd64 2.4.107-8ubuntu1~20.04.2 [19.7 kB]
+Get:54 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libfile-fcntllock-perl amd64 0.22-3build4 [33.1 kB]
+Get:55 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libglapi-mesa amd64 21.2.6-0ubuntu0.1~20.04.2 [27.4 kB]
+Get:56 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libllvm12 amd64 1:12.0.0-3ubuntu1~20.04.5 [18.8 MB]
+Get:57 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libsensors-config all 1:3.6.0-2ubuntu1.1 [6052 B]
+Get:58 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libsensors5 amd64 1:3.6.0-2ubuntu1.1 [27.2 kB]
+Get:59 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libvulkan1 amd64 1.2.131.2-1 [93.3 kB]
+Get:60 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libgl1-mesa-dri amd64 21.2.6-0ubuntu0.1~20.04.2 [11.0 MB]
+Get:61 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libx11-xcb1 amd64 2:1.6.9-2ubuntu1.5 [9256 B]
+Get:62 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxcb-dri2-0 amd64 1.14-2 [6920 B]
+Get:63 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxcb-dri3-0 amd64 1.14-2 [6552 B]
+Get:64 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxcb-glx0 amd64 1.14-2 [22.1 kB]
+Get:65 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxcb-present0 amd64 1.14-2 [5560 B]
+Get:66 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxcb-shm0 amd64 1.14-2 [5584 B]
+Get:67 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxcb-sync1 amd64 1.14-2 [8884 B]
+Get:68 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxcb-xfixes0 amd64 1.14-2 [9296 B]
+Get:69 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxfixes3 amd64 1:5.0.3-2 [10.9 kB]
+Get:70 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxshmfence1 amd64 1.3-1 [5028 B]
+Get:71 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxxf86vm1 amd64 1:1.1.4-1build1 [10.2 kB]
+Get:72 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libglx-mesa0 amd64 21.2.6-0ubuntu0.1~20.04.2 [137 kB]
+Get:73 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libwayland-client0 amd64 1.18.0-1ubuntu0.1 [23.9 kB]
+Get:74 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libxcb-randr0 amd64 1.14-2 [16.3 kB]
+Get:75 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 manpages-dev all 5.05-1 [2266 kB]
+Get:76 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 mesa-vulkan-drivers amd64 21.2.6-0ubuntu0.1~20.04.2 [5788 kB]
+Get:77 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 unzip amd64 6.0-25ubuntu1.1 [168 kB]
+Get:78 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libglvnd0 amd64 1.3.2-1~ubuntu0.20.04.2 [48.1 kB]
+Get:79 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libglx0 amd64 1.3.2-1~ubuntu0.20.04.2 [32.5 kB]
+Get:80 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 libgl1 amd64 1.3.2-1~ubuntu0.20.04.2 [85.8 kB]
+Get:81 http://azure.archive.ubuntu.com/ubuntu focal/universe amd64 mesa-utils amd64 8.4.0-1build1 [34.2 kB]
+Fetched 83.2 MB in 1s (74.6 MB/s)
+Selecting previously unselected package libapt-pkg-perl.
+(Reading database ... 85826 files and directories currently installed.)
+Preparing to unpack .../00-libapt-pkg-perl_0.1.36build3_amd64.deb ...
+Unpacking libapt-pkg-perl (0.1.36build3) ...
+Selecting previously unselected package libexporter-tiny-perl.
+Preparing to unpack .../01-libexporter-tiny-perl_1.002001-1_all.deb ...
+Unpacking libexporter-tiny-perl (1.002001-1) ...
+Selecting previously unselected package liblist-moreutils-perl.
+Preparing to unpack .../02-liblist-moreutils-perl_0.416-1build5_amd64.deb ...
+Unpacking liblist-moreutils-perl (0.416-1build5) ...
+Selecting previously unselected package libregexp-assemble-perl.
+Preparing to unpack .../03-libregexp-assemble-perl_0.36-1_all.deb ...
+Unpacking libregexp-assemble-perl (0.36-1) ...
+Selecting previously unselected package apt-file.
+Preparing to unpack .../04-apt-file_3.2.2_all.deb ...
+Unpacking apt-file (3.2.2) ...
+Selecting previously unselected package m4.
+Preparing to unpack .../05-m4_1.4.18-4_amd64.deb ...
+Unpacking m4 (1.4.18-4) ...
+Selecting previously unselected package autoconf.
+Preparing to unpack .../06-autoconf_2.69-11.1_all.deb ...
+Unpacking autoconf (2.69-11.1) ...
+Selecting previously unselected package autotools-dev.
+Preparing to unpack .../07-autotools-dev_20180224.1_all.deb ...
+Unpacking autotools-dev (20180224.1) ...
+Selecting previously unselected package automake.
+Preparing to unpack .../08-automake_1%3a1.16.1-4ubuntu6_all.deb ...
+Unpacking automake (1:1.16.1-4ubuntu6) ...
+Selecting previously unselected package binutils-common:amd64.
+Preparing to unpack .../09-binutils-common_2.34-6ubuntu1.6_amd64.deb ...
+Unpacking binutils-common:amd64 (2.34-6ubuntu1.6) ...
+Selecting previously unselected package libbinutils:amd64.
+Preparing to unpack .../10-libbinutils_2.34-6ubuntu1.6_amd64.deb ...
+Unpacking libbinutils:amd64 (2.34-6ubuntu1.6) ...
+Selecting previously unselected package libctf-nobfd0:amd64.
+Preparing to unpack .../11-libctf-nobfd0_2.34-6ubuntu1.6_amd64.deb ...
+Unpacking libctf-nobfd0:amd64 (2.34-6ubuntu1.6) ...
+Selecting previously unselected package libctf0:amd64.
+Preparing to unpack .../12-libctf0_2.34-6ubuntu1.6_amd64.deb ...
+Unpacking libctf0:amd64 (2.34-6ubuntu1.6) ...
+Selecting previously unselected package binutils-x86-64-linux-gnu.
+Preparing to unpack .../13-binutils-x86-64-linux-gnu_2.34-6ubuntu1.6_amd64.deb ...
+Unpacking binutils-x86-64-linux-gnu (2.34-6ubuntu1.6) ...
+Selecting previously unselected package binutils.
+Preparing to unpack .../14-binutils_2.34-6ubuntu1.6_amd64.deb ...
+Unpacking binutils (2.34-6ubuntu1.6) ...
+Selecting previously unselected package libc-dev-bin.
+Preparing to unpack .../15-libc-dev-bin_2.31-0ubuntu9.9_amd64.deb ...
+Unpacking libc-dev-bin (2.31-0ubuntu9.9) ...
+Selecting previously unselected package linux-libc-dev:amd64.
+Preparing to unpack .../16-linux-libc-dev_5.4.0-155.172_amd64.deb ...
+Unpacking linux-libc-dev:amd64 (5.4.0-155.172) ...
+Selecting previously unselected package libcrypt-dev:amd64.
+Preparing to unpack .../17-libcrypt-dev_1%3a4.4.10-10ubuntu4_amd64.deb ...
+Unpacking libcrypt-dev:amd64 (1:4.4.10-10ubuntu4) ...
+Selecting previously unselected package libc6-dev:amd64.
+Preparing to unpack .../18-libc6-dev_2.31-0ubuntu9.9_amd64.deb ...
+Unpacking libc6-dev:amd64 (2.31-0ubuntu9.9) ...
+Selecting previously unselected package gcc-9-base:amd64.
+Preparing to unpack .../19-gcc-9-base_9.4.0-1ubuntu1~20.04.1_amd64.deb ...
+Unpacking gcc-9-base:amd64 (9.4.0-1ubuntu1~20.04.1) ...
+Selecting previously unselected package libisl22:amd64.
+Preparing to unpack .../20-libisl22_0.22.1-1_amd64.deb ...
+Unpacking libisl22:amd64 (0.22.1-1) ...
+Selecting previously unselected package libmpc3:amd64.
+Preparing to unpack .../21-libmpc3_1.1.0-1_amd64.deb ...
+Unpacking libmpc3:amd64 (1.1.0-1) ...
+Selecting previously unselected package cpp-9.
+Preparing to unpack .../22-cpp-9_9.4.0-1ubuntu1~20.04.1_amd64.deb ...
+Unpacking cpp-9 (9.4.0-1ubuntu1~20.04.1) ...
+Selecting previously unselected package cpp.
+Preparing to unpack .../23-cpp_4%3a9.3.0-1ubuntu2_amd64.deb ...
+Unpacking cpp (4:9.3.0-1ubuntu2) ...
+Selecting previously unselected package libcc1-0:amd64.
+Preparing to unpack .../24-libcc1-0_10.3.0-1ubuntu1~20.04_amd64.deb ...
+Unpacking libcc1-0:amd64 (10.3.0-1ubuntu1~20.04) ...
+Selecting previously unselected package libgomp1:amd64.
+Preparing to unpack .../25-libgomp1_10.3.0-1ubuntu1~20.04_amd64.deb ...
+Unpacking libgomp1:amd64 (10.3.0-1ubuntu1~20.04) ...
+Selecting previously unselected package libitm1:amd64.
+Preparing to unpack .../26-libitm1_10.3.0-1ubuntu1~20.04_amd64.deb ...
+Unpacking libitm1:amd64 (10.3.0-1ubuntu1~20.04) ...
+Selecting previously unselected package libatomic1:amd64.
+Preparing to unpack .../27-libatomic1_10.3.0-1ubuntu1~20.04_amd64.deb ...
+Unpacking libatomic1:amd64 (10.3.0-1ubuntu1~20.04) ...
+Selecting previously unselected package libasan5:amd64.
+Preparing to unpack .../28-libasan5_9.4.0-1ubuntu1~20.04.1_amd64.deb ...
+Unpacking libasan5:amd64 (9.4.0-1ubuntu1~20.04.1) ...
+Selecting previously unselected package liblsan0:amd64.
+Preparing to unpack .../29-liblsan0_10.3.0-1ubuntu1~20.04_amd64.deb ...
+Unpacking liblsan0:amd64 (10.3.0-1ubuntu1~20.04) ...
+Selecting previously unselected package libtsan0:amd64.
+Preparing to unpack .../30-libtsan0_10.3.0-1ubuntu1~20.04_amd64.deb ...
+Unpacking libtsan0:amd64 (10.3.0-1ubuntu1~20.04) ...
+Selecting previously unselected package libubsan1:amd64.
+Preparing to unpack .../31-libubsan1_10.3.0-1ubuntu1~20.04_amd64.deb ...
+Unpacking libubsan1:amd64 (10.3.0-1ubuntu1~20.04) ...
+Selecting previously unselected package libquadmath0:amd64.
+Preparing to unpack .../32-libquadmath0_10.3.0-1ubuntu1~20.04_amd64.deb ...
+Unpacking libquadmath0:amd64 (10.3.0-1ubuntu1~20.04) ...
+Selecting previously unselected package libgcc-9-dev:amd64.
+Preparing to unpack .../33-libgcc-9-dev_9.4.0-1ubuntu1~20.04.1_amd64.deb ...
+Unpacking libgcc-9-dev:amd64 (9.4.0-1ubuntu1~20.04.1) ...
+Selecting previously unselected package gcc-9.
+Preparing to unpack .../34-gcc-9_9.4.0-1ubuntu1~20.04.1_amd64.deb ...
+Unpacking gcc-9 (9.4.0-1ubuntu1~20.04.1) ...
+Selecting previously unselected package gcc.
+Preparing to unpack .../35-gcc_4%3a9.3.0-1ubuntu2_amd64.deb ...
+Unpacking gcc (4:9.3.0-1ubuntu2) ...
+Selecting previously unselected package libstdc++-9-dev:amd64.
+Preparing to unpack .../36-libstdc++-9-dev_9.4.0-1ubuntu1~20.04.1_amd64.deb ...
+Unpacking libstdc++-9-dev:amd64 (9.4.0-1ubuntu1~20.04.1) ...
+Selecting previously unselected package g++-9.
+Preparing to unpack .../37-g++-9_9.4.0-1ubuntu1~20.04.1_amd64.deb ...
+Unpacking g++-9 (9.4.0-1ubuntu1~20.04.1) ...
+Selecting previously unselected package g++.
+Preparing to unpack .../38-g++_4%3a9.3.0-1ubuntu2_amd64.deb ...
+Unpacking g++ (4:9.3.0-1ubuntu2) ...
+Selecting previously unselected package make.
+Preparing to unpack .../39-make_4.2.1-1.2_amd64.deb ...
+Unpacking make (4.2.1-1.2) ...
+Selecting previously unselected package libdpkg-perl.
+Preparing to unpack .../40-libdpkg-perl_1.19.7ubuntu3.2_all.deb ...
+Unpacking libdpkg-perl (1.19.7ubuntu3.2) ...
+Selecting previously unselected package dpkg-dev.
+Preparing to unpack .../41-dpkg-dev_1.19.7ubuntu3.2_all.deb ...
+Unpacking dpkg-dev (1.19.7ubuntu3.2) ...
+Selecting previously unselected package build-essential.
+Preparing to unpack .../42-build-essential_12.8ubuntu1.1_amd64.deb ...
+Unpacking build-essential (12.8ubuntu1.1) ...
+Selecting previously unselected package libfakeroot:amd64.
+Preparing to unpack .../43-libfakeroot_1.24-1_amd64.deb ...
+Unpacking libfakeroot:amd64 (1.24-1) ...
+Selecting previously unselected package fakeroot.
+Preparing to unpack .../44-fakeroot_1.24-1_amd64.deb ...
+Unpacking fakeroot (1.24-1) ...
+Selecting previously unselected package libalgorithm-diff-perl.
+Preparing to unpack .../45-libalgorithm-diff-perl_1.19.03-2_all.deb ...
+Unpacking libalgorithm-diff-perl (1.19.03-2) ...
+Selecting previously unselected package libalgorithm-diff-xs-perl.
+Preparing to unpack .../46-libalgorithm-diff-xs-perl_0.04-6_amd64.deb ...
+Unpacking libalgorithm-diff-xs-perl (0.04-6) ...
+Selecting previously unselected package libalgorithm-merge-perl.
+Preparing to unpack .../47-libalgorithm-merge-perl_0.08-3_all.deb ...
+Unpacking libalgorithm-merge-perl (0.08-3) ...
+Selecting previously unselected package libdrm-amdgpu1:amd64.
+Preparing to unpack .../48-libdrm-amdgpu1_2.4.107-8ubuntu1~20.04.2_amd64.deb ...
+Unpacking libdrm-amdgpu1:amd64 (2.4.107-8ubuntu1~20.04.2) ...
+Selecting previously unselected package libpciaccess0:amd64.
+Preparing to unpack .../49-libpciaccess0_0.16-0ubuntu1_amd64.deb ...
+Unpacking libpciaccess0:amd64 (0.16-0ubuntu1) ...
+Selecting previously unselected package libdrm-intel1:amd64.
+Preparing to unpack .../50-libdrm-intel1_2.4.107-8ubuntu1~20.04.2_amd64.deb ...
+Unpacking libdrm-intel1:amd64 (2.4.107-8ubuntu1~20.04.2) ...
+Selecting previously unselected package libdrm-nouveau2:amd64.
+Preparing to unpack .../51-libdrm-nouveau2_2.4.107-8ubuntu1~20.04.2_amd64.deb ...
+Unpacking libdrm-nouveau2:amd64 (2.4.107-8ubuntu1~20.04.2) ...
+Selecting previously unselected package libdrm-radeon1:amd64.
+Preparing to unpack .../52-libdrm-radeon1_2.4.107-8ubuntu1~20.04.2_amd64.deb ...
+Unpacking libdrm-radeon1:amd64 (2.4.107-8ubuntu1~20.04.2) ...
+Selecting previously unselected package libfile-fcntllock-perl.
+Preparing to unpack .../53-libfile-fcntllock-perl_0.22-3build4_amd64.deb ...
+Unpacking libfile-fcntllock-perl (0.22-3build4) ...
+Selecting previously unselected package libglapi-mesa:amd64.
+Preparing to unpack .../54-libglapi-mesa_21.2.6-0ubuntu0.1~20.04.2_amd64.deb ...
+Unpacking libglapi-mesa:amd64 (21.2.6-0ubuntu0.1~20.04.2) ...
+Selecting previously unselected package libllvm12:amd64.
+Preparing to unpack .../55-libllvm12_1%3a12.0.0-3ubuntu1~20.04.5_amd64.deb ...
+Unpacking libllvm12:amd64 (1:12.0.0-3ubuntu1~20.04.5) ...
+Selecting previously unselected package libsensors-config.
+Preparing to unpack .../56-libsensors-config_1%3a3.6.0-2ubuntu1.1_all.deb ...
+Unpacking libsensors-config (1:3.6.0-2ubuntu1.1) ...
+Selecting previously unselected package libsensors5:amd64.
+Preparing to unpack .../57-libsensors5_1%3a3.6.0-2ubuntu1.1_amd64.deb ...
+Unpacking libsensors5:amd64 (1:3.6.0-2ubuntu1.1) ...
+Selecting previously unselected package libvulkan1:amd64.
+Preparing to unpack .../58-libvulkan1_1.2.131.2-1_amd64.deb ...
+Unpacking libvulkan1:amd64 (1.2.131.2-1) ...
+Selecting previously unselected package libgl1-mesa-dri:amd64.
+Preparing to unpack .../59-libgl1-mesa-dri_21.2.6-0ubuntu0.1~20.04.2_amd64.deb ...
+Unpacking libgl1-mesa-dri:amd64 (21.2.6-0ubuntu0.1~20.04.2) ...
+Selecting previously unselected package libx11-xcb1:amd64.
+Preparing to unpack .../60-libx11-xcb1_2%3a1.6.9-2ubuntu1.5_amd64.deb ...
+Unpacking libx11-xcb1:amd64 (2:1.6.9-2ubuntu1.5) ...
+Selecting previously unselected package libxcb-dri2-0:amd64.
+Preparing to unpack .../61-libxcb-dri2-0_1.14-2_amd64.deb ...
+Unpacking libxcb-dri2-0:amd64 (1.14-2) ...
+Selecting previously unselected package libxcb-dri3-0:amd64.
+Preparing to unpack .../62-libxcb-dri3-0_1.14-2_amd64.deb ...
+Unpacking libxcb-dri3-0:amd64 (1.14-2) ...
+Selecting previously unselected package libxcb-glx0:amd64.
+Preparing to unpack .../63-libxcb-glx0_1.14-2_amd64.deb ...
+Unpacking libxcb-glx0:amd64 (1.14-2) ...
+Selecting previously unselected package libxcb-present0:amd64.
+Preparing to unpack .../64-libxcb-present0_1.14-2_amd64.deb ...
+Unpacking libxcb-present0:amd64 (1.14-2) ...
+Selecting previously unselected package libxcb-shm0:amd64.
+Preparing to unpack .../65-libxcb-shm0_1.14-2_amd64.deb ...
+Unpacking libxcb-shm0:amd64 (1.14-2) ...
+Selecting previously unselected package libxcb-sync1:amd64.
+Preparing to unpack .../66-libxcb-sync1_1.14-2_amd64.deb ...
+Unpacking libxcb-sync1:amd64 (1.14-2) ...
+Selecting previously unselected package libxcb-xfixes0:amd64.
+Preparing to unpack .../67-libxcb-xfixes0_1.14-2_amd64.deb ...
+Unpacking libxcb-xfixes0:amd64 (1.14-2) ...
+Selecting previously unselected package libxfixes3:amd64.
+Preparing to unpack .../68-libxfixes3_1%3a5.0.3-2_amd64.deb ...
+Unpacking libxfixes3:amd64 (1:5.0.3-2) ...
+Selecting previously unselected package libxshmfence1:amd64.
+Preparing to unpack .../69-libxshmfence1_1.3-1_amd64.deb ...
+Unpacking libxshmfence1:amd64 (1.3-1) ...
+Selecting previously unselected package libxxf86vm1:amd64.
+Preparing to unpack .../70-libxxf86vm1_1%3a1.1.4-1build1_amd64.deb ...
+Unpacking libxxf86vm1:amd64 (1:1.1.4-1build1) ...
+Selecting previously unselected package libglx-mesa0:amd64.
+Preparing to unpack .../71-libglx-mesa0_21.2.6-0ubuntu0.1~20.04.2_amd64.deb ...
+Unpacking libglx-mesa0:amd64 (21.2.6-0ubuntu0.1~20.04.2) ...
+Selecting previously unselected package libwayland-client0:amd64.
+Preparing to unpack .../72-libwayland-client0_1.18.0-1ubuntu0.1_amd64.deb ...
+Unpacking libwayland-client0:amd64 (1.18.0-1ubuntu0.1) ...
+Selecting previously unselected package libxcb-randr0:amd64.
+Preparing to unpack .../73-libxcb-randr0_1.14-2_amd64.deb ...
+Unpacking libxcb-randr0:amd64 (1.14-2) ...
+Selecting previously unselected package manpages-dev.
+Preparing to unpack .../74-manpages-dev_5.05-1_all.deb ...
+Unpacking manpages-dev (5.05-1) ...
+Selecting previously unselected package mesa-vulkan-drivers:amd64.
+Preparing to unpack .../75-mesa-vulkan-drivers_21.2.6-0ubuntu0.1~20.04.2_amd64.deb ...
+Unpacking mesa-vulkan-drivers:amd64 (21.2.6-0ubuntu0.1~20.04.2) ...
+Selecting previously unselected package unzip.
+Preparing to unpack .../76-unzip_6.0-25ubuntu1.1_amd64.deb ...
+Unpacking unzip (6.0-25ubuntu1.1) ...
+Selecting previously unselected package libglvnd0:amd64.
+Preparing to unpack .../77-libglvnd0_1.3.2-1~ubuntu0.20.04.2_amd64.deb ...
+Unpacking libglvnd0:amd64 (1.3.2-1~ubuntu0.20.04.2) ...
+Selecting previously unselected package libglx0:amd64.
+Preparing to unpack .../78-libglx0_1.3.2-1~ubuntu0.20.04.2_amd64.deb ...
+Unpacking libglx0:amd64 (1.3.2-1~ubuntu0.20.04.2) ...
+Selecting previously unselected package libgl1:amd64.
+Preparing to unpack .../79-libgl1_1.3.2-1~ubuntu0.20.04.2_amd64.deb ...
+Unpacking libgl1:amd64 (1.3.2-1~ubuntu0.20.04.2) ...
+Selecting previously unselected package mesa-utils.
+Preparing to unpack .../80-mesa-utils_8.4.0-1build1_amd64.deb ...
+Unpacking mesa-utils (8.4.0-1build1) ...
+Setting up libapt-pkg-perl (0.1.36build3) ...
+Setting up libxcb-dri3-0:amd64 (1.14-2) ...
+Setting up manpages-dev (5.05-1) ...
+Setting up libx11-xcb1:amd64 (2:1.6.9-2ubuntu1.5) ...
+Setting up libpciaccess0:amd64 (0.16-0ubuntu1) ...
+Setting up libdrm-nouveau2:amd64 (2.4.107-8ubuntu1~20.04.2) ...
+Setting up libxcb-xfixes0:amd64 (1.14-2) ...
+Setting up libfile-fcntllock-perl (0.22-3build4) ...
+Setting up libalgorithm-diff-perl (1.19.03-2) ...
+Setting up libdrm-radeon1:amd64 (2.4.107-8ubuntu1~20.04.2) ...
+Setting up libglvnd0:amd64 (1.3.2-1~ubuntu0.20.04.2) ...
+Setting up libxcb-glx0:amd64 (1.14-2) ...
+Setting up unzip (6.0-25ubuntu1.1) ...
+Setting up libdrm-intel1:amd64 (2.4.107-8ubuntu1~20.04.2) ...
+Setting up binutils-common:amd64 (2.34-6ubuntu1.6) ...
+Setting up libsensors-config (1:3.6.0-2ubuntu1.1) ...
+Setting up linux-libc-dev:amd64 (5.4.0-155.172) ...
+Setting up libctf-nobfd0:amd64 (2.34-6ubuntu1.6) ...
+Setting up m4 (1.4.18-4) ...
+Setting up libxcb-shm0:amd64 (1.14-2) ...
+Setting up libgomp1:amd64 (10.3.0-1ubuntu1~20.04) ...
+Setting up libfakeroot:amd64 (1.24-1) ...
+Setting up libxxf86vm1:amd64 (1:1.1.4-1build1) ...
+Setting up fakeroot (1.24-1) ...
+update-alternatives: using /usr/bin/fakeroot-sysv to provide /usr/bin/fakeroot (fakeroot) in auto mode
+Setting up libxcb-present0:amd64 (1.14-2) ...
+Setting up autotools-dev (20180224.1) ...
+Setting up make (4.2.1-1.2) ...
+Setting up libxfixes3:amd64 (1:5.0.3-2) ...
+Setting up libxcb-sync1:amd64 (1.14-2) ...
+Setting up libllvm12:amd64 (1:12.0.0-3ubuntu1~20.04.5) ...
+Setting up libquadmath0:amd64 (10.3.0-1ubuntu1~20.04) ...
+Setting up libmpc3:amd64 (1.1.0-1) ...
+Setting up libatomic1:amd64 (10.3.0-1ubuntu1~20.04) ...
+Setting up libsensors5:amd64 (1:3.6.0-2ubuntu1.1) ...
+Setting up libglapi-mesa:amd64 (21.2.6-0ubuntu0.1~20.04.2) ...
+Setting up libdpkg-perl (1.19.7ubuntu3.2) ...
+Setting up libvulkan1:amd64 (1.2.131.2-1) ...
+Setting up autoconf (2.69-11.1) ...
+Setting up libubsan1:amd64 (10.3.0-1ubuntu1~20.04) ...
+Setting up libxcb-dri2-0:amd64 (1.14-2) ...
+Setting up libxshmfence1:amd64 (1.3-1) ...
+Setting up libcrypt-dev:amd64 (1:4.4.10-10ubuntu4) ...
+Setting up libxcb-randr0:amd64 (1.14-2) ...
+Setting up libisl22:amd64 (0.22.1-1) ...
+Setting up libexporter-tiny-perl (1.002001-1) ...
+Setting up libbinutils:amd64 (2.34-6ubuntu1.6) ...
+Setting up libc-dev-bin (2.31-0ubuntu9.9) ...
+Setting up libregexp-assemble-perl (0.36-1) ...
+Setting up libalgorithm-diff-xs-perl (0.04-6) ...
+Setting up libcc1-0:amd64 (10.3.0-1ubuntu1~20.04) ...
+Setting up liblsan0:amd64 (10.3.0-1ubuntu1~20.04) ...
+Setting up libitm1:amd64 (10.3.0-1ubuntu1~20.04) ...
+Setting up gcc-9-base:amd64 (9.4.0-1ubuntu1~20.04.1) ...
+Setting up libalgorithm-merge-perl (0.08-3) ...
+Setting up libdrm-amdgpu1:amd64 (2.4.107-8ubuntu1~20.04.2) ...
+Setting up libtsan0:amd64 (10.3.0-1ubuntu1~20.04) ...
+Setting up libwayland-client0:amd64 (1.18.0-1ubuntu0.1) ...
+Setting up libctf0:amd64 (2.34-6ubuntu1.6) ...
+Setting up automake (1:1.16.1-4ubuntu6) ...
+update-alternatives: using /usr/bin/automake-1.16 to provide /usr/bin/automake (automake) in auto mode
+Setting up mesa-vulkan-drivers:amd64 (21.2.6-0ubuntu0.1~20.04.2) ...
+Setting up liblist-moreutils-perl (0.416-1build5) ...
+Setting up libgl1-mesa-dri:amd64 (21.2.6-0ubuntu0.1~20.04.2) ...
+Setting up apt-file (3.2.2) ...
+The system-wide cache is empty. You may want to run 'apt-file update'
+as root to update the cache.
+Setting up libasan5:amd64 (9.4.0-1ubuntu1~20.04.1) ...
+Setting up cpp-9 (9.4.0-1ubuntu1~20.04.1) ...
+Setting up libc6-dev:amd64 (2.31-0ubuntu9.9) ...
+Setting up binutils-x86-64-linux-gnu (2.34-6ubuntu1.6) ...
+Setting up libglx-mesa0:amd64 (21.2.6-0ubuntu0.1~20.04.2) ...
+Setting up libglx0:amd64 (1.3.2-1~ubuntu0.20.04.2) ...
+Setting up binutils (2.34-6ubuntu1.6) ...
+Setting up dpkg-dev (1.19.7ubuntu3.2) ...
+Setting up libgcc-9-dev:amd64 (9.4.0-1ubuntu1~20.04.1) ...
+Setting up libgl1:amd64 (1.3.2-1~ubuntu0.20.04.2) ...
+Setting up mesa-utils (8.4.0-1build1) ...
+Setting up cpp (4:9.3.0-1ubuntu2) ...
+Setting up gcc-9 (9.4.0-1ubuntu1~20.04.1) ...
+Setting up libstdc++-9-dev:amd64 (9.4.0-1ubuntu1~20.04.1) ...
+Setting up gcc (4:9.3.0-1ubuntu2) ...
+Setting up g++-9 (9.4.0-1ubuntu1~20.04.1) ...
+Setting up g++ (4:9.3.0-1ubuntu2) ...
+update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+Setting up build-essential (12.8ubuntu1.1) ...
+Processing triggers for mime-support (3.64ubuntu1) ...
+Processing triggers for libc-bin (2.31-0ubuntu9.9) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for install-info (6.7.0.dfsg.2-5) ...
+
+Phoronix Test Suite v7.8.0
+
+    To Install:    pts/n-queens-1.2.1
+
+    Determining File Requirements ..........................................................................................................................
+    Searching Download Caches ..............................................................................................................................
+
+    1 Test To Install
+        1 File To Download [0.20MB]
+        2MB Of Disk Space Is Needed
+
+    pts/n-queens-1.2.1:
+        Test Installation 1 of 1
+        1 File Needed [0.2 MB]
+        Downloading: qn24b-version1.0.tgz                                                                                                           [0.20MB]
+        Downloading ........................................................................................................................................
+        Installation Size: 1.4 MB
+        Installing Test @ 09:48:06
+
+
+azureuser@VM1:~$ phoronix-test-suite run n-queens
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+Phoronix Test Suite v7.8.0
+System Information
+
+
+  PROCESSOR:          Intel Xeon Platinum 8171M @ 2.10GHz
+    Core Count:       2
+    Extensions:       SSE 4.2 + AVX512CD + AVX2 + AVX + RDRAND + FSGSBASE
+    Cache Size:       36608 KB
+    Microcode:        0xffffffff
+
+  GRAPHICS:           hyperv_drmdrmfb
+    Screen:           1024x768
+
+  MOTHERBOARD:        Microsoft Virtual Machine
+    BIOS Version:     Hyper-V UEFI v4.1
+
+  MEMORY:             4096MB
+
+  DISK:               32GB Virtual Disk + 9GB Virtual Disk
+    File-System:      ext4
+    Mount Options:    discard relatime rw
+    Disk Scheduler:   NONE
+
+  OPERATING SYSTEM:   Ubuntu 20.04
+    Kernel:           5.15.0-1042-azure (x86_64)
+    Compiler:         GCC 9.4.0
+    System Layer:     microsoft
+    Security:         KPTI + usercopy/swapgs barriers and __user pointer sanitization + Retpolines STIBP: disabled RSB filling PBRSB-eIBRS: Not affected Protection
+
+    Would you like to save these test results (Y/n): y
+    Enter a name to save these results under: Testnqueen1
+    Enter a unique name to describe this test run / configuration: 1iteration
+
+If desired, enter a new description below to better describe this result set / system configuration under test.
+Press ENTER to proceed without changes.
+
+Current Description: microsoft testing on Ubuntu 20.04 via the Phoronix Test Suite.
+
+New Description: First test run on n-queens
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:249
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:282
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:332
+
+
+N-Queens 1.0:
+    pts/n-queens-1.2.1
+    Test 1 of 1
+    Estimated Trial Run Count:    3
+    Estimated Time To Completion: 49 Minutes [10:39 UTC]
+        Started Run 1 @ 09:51:08
+[8192] strpos(): Non-string needles will be interpreted as strings in the future. Use an explicit chr() call to preserve the current behavior in pts_test_result_parser:852
+
+        Started Run 2 @ 09:53:34
+[8192] strpos(): Non-string needles will be interpreted as strings in the future. Use an explicit chr() call to preserve the current behavior in pts_test_result_parser:852
+
+        Started Run 3 @ 09:55:59
+[8192] strpos(): Non-string needles will be interpreted as strings in the future. Use an explicit chr() call to preserve the current behavior in pts_test_result_parser:852
+
+
+    Elapsed Time:
+        144.553
+        144.887
+        145.634
+
+    Average: 145.02 Seconds
+    Deviation: 0.38%
+
+    Do you want to view the text results of the testing (Y/n): y
+Testnqueen1
+First test run on n-queens
+
+
+1iteration:
+
+        Processor: Intel Xeon Platinum 8171M @ 2.10GHz (2 Cores), Motherboard: Microsoft Virtual Machine (Hyper-V UEFI v4.1 BIOS), Memory: 4096MB, Disk: 32GB Virtual Disk + 9GB Virtual Disk, Graphics: hyperv_drmdrmfb
+
+        OS: Ubuntu 20.04, Kernel: 5.15.0-1042-azure (x86_64), Compiler: GCC 9.4.0, File-System: ext4, Screen Resolution: 1024x768, System Layer: microsoft
+
+N-Queens 1.0
+Elapsed Time
+    Seconds < Lower Is Better
+    1iteration .. 145.02 |======================================================================================================================================
+
+    Would you like to upload the results to OpenBenchmarking.org (Y/n): n
+
+azureuser@VM1:~$ phoronix-test-suite install pts/sysbench
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:249
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:282
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:332
+
+The following dependencies are needed and will be installed:
+
+- libtool
+- libaio-dev
+
+This process may take several minutes.
+/usr/share/phoronix-test-suite/pts-core/external-test-dependencies/scripts/install-ubuntu-packages.sh: 24: --: not found
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libltdl-dev
+Suggested packages:
+  libtool-doc gfortran | fortran95-compiler gcj-jdk
+The following NEW packages will be installed:
+  libaio-dev libltdl-dev libtool
+0 upgraded, 3 newly installed, 0 to remove and 9 not upgraded.
+Need to get 336 kB of archives.
+After this operation, 2237 kB of additional disk space will be used.
+Get:1 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libaio-dev amd64 0.3.112-5 [13.7 kB]
+Get:2 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libltdl-dev amd64 2.4.6-14 [162 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu focal/main amd64 libtool all 2.4.6-14 [161 kB]
+Fetched 336 kB in 0s (11.4 MB/s)
+Selecting previously unselected package libaio-dev:amd64.
+(Reading database ... 92088 files and directories currently installed.)
+Preparing to unpack .../libaio-dev_0.3.112-5_amd64.deb ...
+Unpacking libaio-dev:amd64 (0.3.112-5) ...
+Selecting previously unselected package libltdl-dev:amd64.
+Preparing to unpack .../libltdl-dev_2.4.6-14_amd64.deb ...
+Unpacking libltdl-dev:amd64 (2.4.6-14) ...
+Selecting previously unselected package libtool.
+Preparing to unpack .../libtool_2.4.6-14_all.deb ...
+Unpacking libtool (2.4.6-14) ...
+Setting up libtool (2.4.6-14) ...
+Setting up libaio-dev:amd64 (0.3.112-5) ...
+Setting up libltdl-dev:amd64 (2.4.6-14) ...
+Processing triggers for man-db (2.9.1-1) ...
+
+There are dependencies still missing from the system:
+- Libtool
+
+1: Ignore missing dependencies and proceed with installation.
+2: Skip installing the tests with missing dependencies.
+3: Re-attempt to install the missing dependencies.
+4: Quit the current Phoronix Test Suite process.
+Missing dependencies action: 3
+
+The following dependencies are needed and will be installed:
+
+- libtool
+
+This process may take several minutes.
+/usr/share/phoronix-test-suite/pts-core/external-test-dependencies/scripts/install-ubuntu-packages.sh: 24: --: not found
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libtool is already the newest version (2.4.6-14).
+0 upgraded, 0 newly installed, 0 to remove and 9 not upgraded.
+
+Phoronix Test Suite v7.8.0
+
+    To Install:    pts/sysbench-1.1.0
+
+    Determining File Requirements ..........................................................................................................................
+    Searching Download Caches ..............................................................................................................................
+
+    1 Test To Install
+        1 File To Download [1.44MB]
+        30MB Of Disk Space Is Needed
+
+    pts/sysbench-1.1.0:
+        Test Installation 1 of 1
+        1 File Needed [1.44 MB / 1 Minute]
+        Downloading: sysbench-1.0.20.tar.gz                                                                                                         [1.44MB]
+        Estimated Download Time: 1m ........................................................................................................................
+        Installation Size: 30 MB
+        Installing Test @ 10:05:44
+            The installer exited with a non-zero exit status.
+            ERROR: the pkg-config package is required to build sysbench
+            LOG: ~/.phoronix-test-suite/installed-tests/pts/sysbench-1.1.0/install-failed.log
+
+
+azureuser@VM1:~$ phoronix-test-suite install pts/sysbench
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:249
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:282
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:332
+
+The following dependencies are needed and will be installed:
+
+- libtool
+
+This process may take several minutes.
+/usr/share/phoronix-test-suite/pts-core/external-test-dependencies/scripts/install-ubuntu-packages.sh: 24: --: not found
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libtool is already the newest version (2.4.6-14).
+0 upgraded, 0 newly installed, 0 to remove and 9 not upgraded.
+
+There are dependencies still missing from the system:
+- Libtool
+
+1: Ignore missing dependencies and proceed with installation.
+2: Skip installing the tests with missing dependencies.
+3: Re-attempt to install the missing dependencies.
+4: Quit the current Phoronix Test Suite process.
+Missing dependencies action: ^C
+azureuser@VM1:~$ sudo apt-get update
+Hit:1 http://azure.archive.ubuntu.com/ubuntu focal InRelease
+Get:2 http://azure.archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Get:3 http://azure.archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
+Get:4 http://azure.archive.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+Hit:5 http://ppa.launchpad.net/ondrej/php/ubuntu focal InRelease
+Get:6 http://azure.archive.ubuntu.com/ubuntu focal amd64 Contents (deb) [40.9 MB]
+Get:7 http://azure.archive.ubuntu.com/ubuntu focal-updates amd64 Contents (deb) [204 MB]
+Get:8 http://azure.archive.ubuntu.com/ubuntu focal-updates/main amd64 c-n-f Metadata [16.9 kB]
+Get:9 http://azure.archive.ubuntu.com/ubuntu focal-backports amd64 Contents (deb) [806 kB]
+Get:10 http://azure.archive.ubuntu.com/ubuntu focal-security amd64 Contents (deb) [190 MB]
+Fetched 437 MB in 1min 25s (5145 kB/s)
+Reading package lists... Done
+azureuser@VM1:~$ sudo apt-get install libtool
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+libtool is already the newest version (2.4.6-14).
+0 upgraded, 0 newly installed, 0 to remove and 9 not upgraded.
+azureuser@VM1:~$ phoronix-test-suite install pts/sysbench
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:249
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:282
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:332
+
+The following dependencies are needed and will be installed:
+
+- libtool
+
+This process may take several minutes.
+/usr/share/phoronix-test-suite/pts-core/external-test-dependencies/scripts/install-ubuntu-packages.sh: 24: --: not found
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libtool is already the newest version (2.4.6-14).
+0 upgraded, 0 newly installed, 0 to remove and 9 not upgraded.
+
+There are dependencies still missing from the system:
+- Libtool
+
+1: Ignore missing dependencies and proceed with installation.
+2: Skip installing the tests with missing dependencies.
+3: Re-attempt to install the missing dependencies.
+4: Quit the current Phoronix Test Suite process.
+Missing dependencies action: ^C
+azureuser@VM1:~$ phoronix-test-suite install sysbench
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:249
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:282
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:332
+
+The following dependencies are needed and will be installed:
+
+- libtool
+
+This process may take several minutes.
+/usr/share/phoronix-test-suite/pts-core/external-test-dependencies/scripts/install-ubuntu-packages.sh: 24: --: not found
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libtool is already the newest version (2.4.6-14).
+0 upgraded, 0 newly installed, 0 to remove and 9 not upgraded.
+
+There are dependencies still missing from the system:
+- Libtool
+
+1: Ignore missing dependencies and proceed with installation.
+2: Skip installing the tests with missing dependencies.
+3: Re-attempt to install the missing dependencies.
+4: Quit the current Phoronix Test Suite process.
+Missing dependencies action: 1
+
+Phoronix Test Suite v7.8.0
+
+    To Install:    pts/sysbench-1.1.0
+
+    Determining File Requirements ..........................................................................................................................
+    Searching Download Caches ..............................................................................................................................
+
+    1 Test To Install
+        30MB Of Disk Space Is Needed
+
+    pts/sysbench-1.1.0:
+        Test Installation 1 of 1
+        1 File Needed [1.44 MB / 1 Minute]
+        File Found: sysbench-1.0.20.tar.gz                                                                                                          [1.44MB]
+        Installation Size: 30 MB
+        Installing Test @ 10:09:40
+            The installer exited with a non-zero exit status.
+            ERROR: the pkg-config package is required to build sysbench
+            LOG: ~/.phoronix-test-suite/installed-tests/pts/sysbench-1.1.0/install-failed.log
+
+
+azureuser@VM1:~$ phoronix-test-suite list-available-tests
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+Phoronix Test Suite v7.8.0
+Available Tests
+
+pts/ai-benchmark               - AI Benchmark Alpha                  System
+pts/aircrack-ng                - Aircrack-ng                         Processor
+pts/amg                        - Algebraic Multi-Grid Benchmark      Processor
+pts/aobench                    - AOBench                             Processor
+pts/aom-av1                    - AOM AV1                             Processor
+pts/apache                     - Apache HTTP Server                  System
+pts/apache-siege               - Apache Siege                        System
+pts/appleseed                  - Appleseed                           System
+pts/arrayfire                  - ArrayFire                           Processor
+pts/ashes-escalation           - Ashes of the Singulairty: Escalation Graphics
+pts/askap                      - ASKAP                               System
+pts/asmfish                    - asmFish                             Processor
+pts/astcenc                    - ASTC Encoder                        System
+pts/avifenc                    - libavif avifenc                     Processor
+pts/axs2mlperf                 - axs2mlperf                          System
+pts/basemark                   - Basemark GPU                        System
+pts/basis                      - Basis Universal                     System
+pts/batman-knight              - Batman: Arkham Knight               Graphics
+pts/batman-origins             - Batman: Arkham Origins              Graphics
+pts/betsy                      - Betsy GPU Compressor                Graphics
+pts/bioshock-infinite          - BioShock Infinite                   Graphics
+pts/blake2                     - BLAKE2                              Processor
+pts/blender                    - Blender                             System
+pts/blogbench                  - BlogBench                           Disk
+pts/blosc                      - C-Blosc                             Processor
+pts/bork                       - Bork File Encrypter                 Processor
+pts/botan                      - Botan                               Processor
+pts/brl-cad                    - BRL-CAD                             System
+pts/build-apache               - Timed Apache Compilation            Processor
+pts/build-clash                - Timed Clash Compilation             Processor
+pts/build-ffmpeg               - Timed FFmpeg Compilation            Processor
+pts/build-gcc                  - Timed GCC Compilation               Processor
+pts/build-gdb                  - Timed GDB GNU Debugger Compilation  Processor
+pts/build-gem5                 - Timed Gem5 Compilation              Processor
+pts/build-godot                - Timed Godot Game Engine Compilation Processor
+pts/build-imagemagick          - Timed ImageMagick Compilation       Processor
+pts/build-linux-kernel         - Timed Linux Kernel Compilation      Processor
+pts/build-llvm                 - Timed LLVM Compilation              Processor
+pts/build-mesa                 - Timed Mesa Compilation              Processor
+pts/build-mplayer              - Timed MPlayer Compilation           Processor
+pts/build-nodejs               - Timed Node.js Compilation           Processor
+pts/build-php                  - Timed PHP Compilation               Processor
+pts/build-python               - Timed CPython Compilation           Processor
+pts/build2                     - Build2                              Processor
+pts/bullet                     - Bullet Physics Engine               Processor
+pts/byte                       - BYTE Unix Benchmark                 Processor
+pts/c-ray                      - C-Ray                               Processor
+pts/cachebench                 - CacheBench                          Processor
+pts/caffe                      - Caffe                               System
+pts/cassandra                  - Apache Cassandra                    System
+pts/chia-vdf                   - Chia Blockchain VDF                 Processor
+pts/civilization-vi            - Civilization VI                     Graphics
+pts/cl-mem                     - cl-mem                              Graphics
+pts/clickhouse                 - ClickHouse                          System
+pts/clomp                      - CLOMP                               Processor
+pts/cloudsuite-da              - CloudSuite Data Analytics           System
+pts/cloudsuite-ga              - CloudSuite Graph Analytics          System
+pts/cloudsuite-ma              - CloudSuite In-Memory Analytics      System
+pts/cloudsuite-ms              - CloudSuite Media Streaming          System
+pts/cloudsuite-ws              - CloudSuite Web Serving              System
+pts/cloverleaf                 - CloverLeaf                          Processor
+pts/clpeak                     - clpeak                              Graphics
+pts/cockroach                  - CockroachDB                         System
+pts/coh2                       - Company of Heroes 2                 Graphics
+pts/comd-cl                    - CoMD OpenCL                         System
+pts/compilebench               - Compile Bench                       Disk
+pts/compress-7zip              - 7-Zip Compression                   Processor
+pts/compress-gzip              - Gzip Compression                    Processor
+pts/compress-lz4               - LZ4 Compression                     Processor
+pts/compress-pbzip2            - Parallel BZIP2 Compression          Processor
+pts/compress-rar               - RAR Compression                     System
+pts/compress-xz                - XZ Compression                      Processor
+pts/compress-zstd              - Zstd Compression                    Processor
+pts/core-latency               - Core-Latency                        Processor
+pts/coremark                   - Coremark                            Processor
+pts/couchdb                    - Apache CouchDB                      System
+pts/cp2k                       - CP2K Molecular Dynamics             Processor
+pts/cpp-perf-bench             - CppPerformanceBenchmarks            System
+pts/cpuminer-opt               - Cpuminer-Opt                        Processor
+pts/crafty                     - Crafty                              Processor
+pts/cryptopp                   - Crypto++                            Processor
+pts/csgo                       - Counter-Strike: Global Offensive    Graphics
+pts/ctx-clock                  - ctx_clock                           System
+pts/cuda-mini-nbody            - CUDA Mini-Nbody                     Graphics
+pts/cyberpunk2077              - Cyberpunk 2077                      Graphics
+pts/cyclictest                 - Cyclictest                          System
+pts/cython-bench               - Cython Benchmark                    Processor
+pts/dacapobench                - DaCapo Benchmark                    Processor
+pts/daphne                     - Darmstadt Automotive Parallel Heterogeneous Suite System
+pts/dav1d                      - dav1d                               Processor
+pts/dbench                     - Dbench                              Disk
+pts/ddnet                      - DDraceNetwork                       Graphics
+pts/deeprec                    - DeepRec                             System
+pts/deepsparse                 - Neural Magic DeepSparse             System
+pts/deepspeech                 - DeepSpeech                          Processor
+pts/deus-exmd                  - Deus Ex: Mankind Divided            Graphics
+pts/dirt-rally                 - DiRT Rally                          Graphics
+pts/dirt-rally2                - DiRT Rally 2.0                      Graphics
+pts/dirt-showdown              - DiRT Showdown                       Graphics
+pts/dolfyn                     - Dolfyn                              Processor
+pts/dota2                      - Dota 2                              Graphics
+pts/dow3                       - Dawn of War III                     Graphics
+pts/draco                      - Google Draco                        System
+pts/dragonflydb                - Dragonflydb                         System
+pts/ebizzy                     - ebizzy                              Processor
+pts/ecp-candle                 - ECP-CANDLE                          System
+pts/embree                     - Embree                              Processor
+pts/encode-flac                - FLAC Audio Encoding                 Processor
+pts/encode-mp3                 - LAME MP3 Encoding                   Processor
+pts/encode-opus                - Opus Codec Encoding                 Processor
+pts/encode-wavpack             - WavPack Audio Encoding              System
+pts/espeak                     - eSpeak-NG Speech Engine             Processor
+pts/et                         - Enemy Territory                     Graphics
+pts/etcd                       - etcd                                System
+pts/etcpak                     - Etcpak                              Processor
+pts/ethr                       - Ethr                                Network
+pts/etlegacy                   - ET: Legacy                          Graphics
+pts/etqw                       - ET: Quake Wars                      Graphics
+pts/etqw-demo                  - ET: Quake Wars Demo                 Graphics
+pts/etqw-demo-iqc              - ET: Quake Wars Image Quality        System
+pts/etxreal                    - ETXreaL                             Graphics
+pts/f12015                     - F1 2015                             Graphics
+pts/f12017                     - F1 2017                             Graphics
+pts/f12018                     - F1 2018                             Graphics
+pts/f12020                     - F1 2020                             Graphics
+pts/f12021                     - F1 2021                             Graphics
+pts/f122                       - F1 22                               Graphics
+pts/fahbench                   - FAHBench                            Graphics
+pts/faiss                      - Faiss                               System
+pts/fast-cli                   - fast-cli                            Network
+pts/ffmpeg                     - FFmpeg                              Processor
+pts/ffte                       - FFTE                                Processor
+pts/fftw                       - FFTW                                Processor
+pts/fhourstones                - Fhourstones                         Processor
+pts/financebench               - FinanceBench                        System
+pts/fio                        - Flexible IO Tester                  Disk
+pts/fluidx3d                   - FluidX3D                            Graphics
+pts/fs-mark                    - FS-Mark                             Disk
+pts/gcrypt                     - Gcrypt Library                      Processor
+pts/geekbench                  - Geekbench                           System
+pts/geexlab                    - GeeXLab                             Graphics
+pts/geexlab-rt                 - GeeXLab Vulkan Ray-Tracing Demo     Graphics
+pts/gfxbench                   - GFXBench                            Graphics
+pts/git                        - Git                                 System
+pts/gl-vs-vk                   - GL-vs-VK                            Graphics
+pts/glibc-bench                - Glibc Benchmarks                    OS
+pts/glmark2                    - GLmark2                             Graphics
+pts/gmpbench                   - GNU GMP GMPbench                    Processor
+pts/gnupg                      - GnuPG                               System
+pts/go-benchmark               - Go Benchmarks                       Processor
+pts/gpaw                       - GPAW                                System
+pts/gputest                    - GpuTest                             Graphics
+pts/graph500                   - Graph500                            System
+pts/graphics-magick            - GraphicsMagick                      Processor
+pts/gravitymark                - GravityMark                         Graphics
+pts/gromacs                    - GROMACS                             System
+pts/gta5                       - Grand Theft Auto V                  Graphics
+pts/hackbench                  - Hackbench                           Processor
+pts/hammerdb-mariadb           - HammerDB - MariaDB                  System
+pts/hammerdb-postgresql        - HammerDB - PostgreSQL               System
+pts/hashcat                    - Hashcat                             Graphics
+pts/hbase                      - Apache HBase                        System
+pts/hdparm-read                - hdparm Timed Disk Reads             Disk
+pts/heffte                     - HeFFTe - Highly Efficient FFT for Exascale Processor
+pts/helsing                    - Helsing                             Processor
+pts/himeno                     - Himeno Benchmark                    Processor
+pts/hint                       - Hierarchical INTegration            System
+pts/hitman                     - HITMAN                              Graphics
+pts/hitman2                    - HITMAN 2                            Graphics
+pts/hitman3                    - HITMAN 3                            Graphics
+pts/hl2-ep2                    - Half-Life 2: Episode Two            Graphics
+pts/hmmer                      - Timed HMMer Search                  Processor
+pts/hpcc                       - HPC Challenge                       Processor
+pts/hpcg                       - High Performance Conjugate Gradient Processor
+pts/idle                       - Timed Idle                          System
+pts/idle-power-usage           - Idle Power Usage                    System
+pts/incompact3d                - Xcompact3d Incompact3d              Processor
+pts/indigobench                - IndigoBench                         System
+pts/influxdb                   - InfluxDB                            System
+pts/insurgency                 - Insurgency                          Graphics
+pts/intel-mlc                  - Intel Memory Latency Checker        Memory
+pts/intel-mpi                  - Intel MPI Benchmarks                System
+pts/intel-tensorflow           - Intel TensorFlow                    System
+pts/ior                        - IOR                                 Disk
+pts/ipc-benchmark              - IPC_benchmark                       Processor
+pts/iperf                      - iPerf                               Network
+pts/j2dbench                   - Java 2D Microbenchmark              Graphics
+pts/java-gradle-perf           - Java Gradle Build                   Processor
+pts/java-jmh                   - Java JMH                            System
+pts/java-scimark2              - Java SciMark                        Processor
+pts/jgfxbat                    - Java Graphics Basic Acceptance Test Processor
+pts/john-the-ripper            - John The Ripper                     Processor
+pts/jpegxl                     - JPEG XL libjxl                      Processor
+pts/jpegxl-decode              - JPEG XL Decoding libjxl             Processor
+pts/juliagpu                   - JuliaGPU                            System
+pts/jxrendermark               - JXRenderMark                        Graphics
+pts/keydb                      - KeyDB                               System
+pts/kripke                     - Kripke                              System
+pts/kvazaar                    - Kvazaar                             Processor
+pts/l4d2                       - Left 4 Dead 2                       Graphics
+pts/laghos                     - Laghos                              Processor
+pts/lammps                     - LAMMPS Molecular Dynamics Simulator Processor
+pts/lczero                     - LeelaChessZero                      Processor
+pts/leveldb                    - LevelDB                             Disk
+pts/libgav1                    - libgav1                             Processor
+pts/libplacebo                 - Libplacebo                          Graphics
+pts/libraw                     - LibRaw                              Processor
+pts/libxsmm                    - libxsmm                             Processor
+pts/liquid-dsp                 - Liquid-DSP                          Processor
+pts/luajit                     - LuaJIT                              Processor
+pts/luaradio                   - LuaRadio                            Processor
+pts/lulesh                     - LULESH                              Processor
+pts/lulesh-cl                  - Lulesh OpenCL                       System
+pts/luxcorerender              - LuxCoreRender                       Processor
+pts/luxmark                    - LuxMark                             System
+pts/lzbench                    - lzbench                             Processor
+pts/m-queens                   - m-queens                            Processor
+pts/madmax                     - Mad Max                             Graphics
+pts/mafft                      - Timed MAFFT Alignment               Processor
+pts/mandelbulbgpu              - MandelbulbGPU                       System
+pts/mandelgpu                  - MandelGPU                           System
+pts/mbw                        - MBW                                 Memory
+pts/memcached                  - Memcached                           System
+pts/memtier-benchmark          - Redis 7.0.12 + memtier_benchmark    System
+pts/mencoder                   - Mencoder                            Processor
+pts/metro2033-redux            - Metro 2033 Redux                    Graphics
+pts/metroll-redux              - Metro: Last Light Redux             Graphics
+pts/minibude                   - miniBUDE                            Processor
+pts/minife                     - miniFE                              Processor
+pts/minion                     - Minion                              Processor
+pts/mixbench                   - Mixbench                            Graphics
+pts/mkl-dnn                    - oneDNN MKL-DNN                      Processor
+pts/mlpack                     - Mlpack Benchmark                    System
+pts/mnn                        - Mobile Neural Network               System
+pts/mocassin                   - Monte Carlo Simulations of Ionised Nebulae Processor
+pts/montage                    - Montage Astronomical Image Mosaic Engine Processor
+pts/mpcbench                   - GNU MPC                             Processor
+pts/mrbayes                    - Timed MrBayes Analysis              Processor
+pts/mt-dgemm                   - ACES DGEMM                          Processor
+pts/multichase                 - Multichase Pointer Chaser           Processor
+pts/mutex                      - BenchmarkMutex                      System
+pts/n-queens                   - N-Queens                            Processor
+pts/namd                       - NAMD                                Processor
+pts/namd-cuda                  - NAMD CUDA                           Graphics
+pts/natron                     - Natron                              System
+pts/ncnn                       - NCNN                                System
+pts/neat                       - Nebular Empirical Analysis Tool     Processor
+pts/neatbench                  - NeatBench                           System
+pts/nekrs                      - nekRS                               Processor
+pts/nero2d                     - Open FMM Nero2D                     Processor
+pts/netperf                    - Netperf                             Network
+pts/nettle                     - Nettle                              Processor
+pts/network-loopback           - Loopback TCP Network Performance    Network
+pts/nginx                      - nginx                               System
+pts/ngspice                    - Ngspice                             Processor
+pts/node-express-loadtest      - Node.js Express HTTP Load Test      Processor
+pts/node-octane                - Node.js Octane Benchmark            Processor
+pts/node-web-tooling           - Node.js V8 Web Tooling Benchmark    Processor
+pts/novabench                  - Novabench                           System
+pts/npb                        - NAS Parallel Benchmarks             Processor
+pts/numenta-nab                - Numenta Anomaly Benchmark           System
+pts/numpy                      - Numpy Benchmark                     Processor
+pts/nuttcp                     - Nuttcp                              Network
+pts/nwchem                     - NWChem                              Processor
+pts/octanebench                - OctaneBench                         Graphics
+pts/oidn                       - Intel Open Image Denoise            Processor
+pts/oneapi-level-zero          - oneAPI Level Zero Tests             System
+pts/onednn                     - oneDNN                              Processor
+pts/onnx                       - ONNX Runtime                        System
+pts/open-porous-media          - Open Porous Media                   Processor
+pts/openarena                  - OpenArena                           Graphics
+pts/opencv                     - OpenCV                              System
+pts/opencv-bench               - OpenCV Benchmark                    Processor
+pts/opendwarfs                 - OpenDwarfs                          System
+pts/openems                    - OpenEMS                             System
+pts/openfoam                   - OpenFOAM                            Processor
+pts/openjpeg                   - OpenJPEG                            Processor
+pts/openradioss                - OpenRadioss                         Processor
+pts/openssl                    - OpenSSL                             Processor
+pts/openvino                   - OpenVINO                            System
+pts/openvkl                    - OpenVKL                             Processor
+pts/optcarrot                  - Optcarrot                           System
+pts/osbench                    - OSBench                             OS
+pts/ospray                     - OSPRay                              Processor
+pts/ospray-studio              - OSPRay Studio                       Processor
+pts/palabos                    - Palabos                             Processor
+pts/paraview                   - ParaView                            Graphics
+pts/parboil                    - Parboil                             Processor
+pts/pennant                    - Pennant                             Processor
+pts/perf-bench                 - perf-bench                          OS
+pts/perl-benchmark             - Perl Benchmarks                     Processor
+pts/petsc                      - PETSc                               System
+pts/pgbench                    - PostgreSQL                          System
+pts/php                        - PHP Micro Benchmarks                System
+pts/phpbench                   - PHPBench                            System
+pts/pjdfstest                  - Pjdfstest                           Disk
+pts/pjsip                      - PJSIP                               Processor
+pts/plaidml                    - PlaidML                             System
+pts/pmbench                    - pmbench                             Memory
+pts/polybench-c                - PolyBench-C                         Processor
+pts/polyhedron                 - Polyhedron Fortran Benchmarks       Processor
+pts/portal                     - Portal                              Graphics
+pts/portal2                    - Portal 2                            Graphics
+pts/postmark                   - PostMark                            Disk
+pts/povray                     - POV-Ray                             Processor
+pts/ppracer                    - Planet Penguin Racer                Graphics
+pts/prey                       - Prey                                Graphics
+pts/primesieve                 - Primesieve                          Processor
+pts/pts-self-test              - Phoronix Test Suite Self Test       System
+pts/pybench                    - PyBench                             System
+pts/pyhpc                      - PyHPC Benchmarks                    System
+pts/pymongo-inserts            - PyMongo Inserts                     System
+pts/pyperformance              - PyPerformance                       System
+pts/qgears2                    - QGears2                             Graphics
+pts/qmcpack                    - QMCPACK                             Processor
+pts/qmlbench                   - Qmlbench                            System
+pts/quadray                    - QuadRay                             Processor
+pts/quake2rtx                  - Quake II RTX                        Graphics
+pts/quake4                     - Quake 4                             Graphics
+pts/quantlib                   - QuantLib                            Processor
+pts/rabbitmq                   - RabbitMQ                            System
+pts/radiance                   - Radiance Benchmark                  Processor
+pts/ramspeed                   - RAMspeed SMP                        Memory
+pts/rav1e                      - rav1e                               Processor
+pts/rays1bench                 - rays1bench                          Processor
+pts/rbenchmark                 - R Benchmark                         Processor
+pts/realsr-ncnn                - RealSR-NCNN                         Graphics
+pts/redis                      - Redis                               System
+pts/relion                     - RELION                              Processor
+pts/remhos                     - Remhos                              Processor
+pts/renaissance                - Renaissance                         Processor
+pts/riseofthetombraider        - Rise of the Tomb Raider             Graphics
+pts/rnnoise                    - RNNoise                             Processor
+pts/rocksdb                    - RocksDB                             System
+pts/rodinia                    - Rodinia                             Processor
+pts/rtiv                       - Ray Tracing In Vulkan               Graphics
+pts/rust-mandel                - Rust Mandelbrot                     Processor
+pts/rust-prime                 - Rust Prime Benchmark                Processor
+pts/sam2017                    - Serious Sam Fusion 2017             Graphics
+pts/schbench                   - Schbench                            System
+pts/scikit-learn               - Scikit-Learn                        System
+pts/scimark2                   - SciMark                             Processor
+pts/securemark                 - SecureMark                          Processor
+pts/serial-loopback            - Serial Loopback Test                System
+pts/shadowofthetombraider      - Shadow of the Tomb Raider           Graphics
+pts/shoc                       - SHOC Scalable HeterOgeneous Computing Graphics
+pts/simdjson                   - simdjson                            Processor
+pts/smallpt                    - Smallpt                             Processor
+pts/smallpt-gpu                - SmallPT GPU                         System
+pts/smart                      - SMART Disk Self-Report              Disk
+pts/smhasher                   - SMHasher                            Processor
+pts/sockperf                   - Sockperf                            OS
+pts/spacy                      - spaCy                               System
+pts/spark                      - Apache Spark                        System
+pts/spec-cpu2017               - SPEC CPU 2017                       System
+pts/spec-jbb2015               - SPECjbb 2015                        System
+pts/specfem3d                  - SPECFEM3D                           Processor
+pts/specviewperf2020           - SPECViewPerf 2020                   Graphics
+pts/specviewperf9              - SPECViewPerf 9                      Graphics
+pts/speedtest-cli              - speedtest-cli                       Network
+pts/sqlite                     - SQLite                              Disk
+pts/sqlite-speedtest           - SQLite Speedtest                    System
+pts/srslte                     - srsLTE                              Processor
+pts/srsran                     - srsRAN Project                      Processor
+pts/ss3bfe                     - Serious Sam 3: BFE                  Graphics
+pts/stargate                   - Stargate Digital Audio Workstation  Processor
+pts/startup-time               - Application Start-up Time           Disk
+pts/stockfish                  - Stockfish                           Processor
+pts/strange-brigade            - Strange Brigade                     Graphics
+pts/stream                     - Stream                              Memory
+pts/stream-dynamic             - Stream-Dynamic                      Memory
+pts/stress-ng                  - Stress-NG                           System
+pts/stressapptest              - Stressful Application Test          Memory
+pts/sudokut                    - Sudokut                             Processor
+pts/sunflow                    - Sunflow Rendering System            System
+pts/supertuxkart               - SuperTuxKart                        Graphics
+pts/svt-av1                    - SVT-AV1                             Processor
+pts/svt-hevc                   - SVT-HEVC                            Processor
+pts/svt-vp9                    - SVT-VP9                             Processor
+pts/swet                       - Swet                                Processor
+pts/synthmark                  - Google SynthMark                    Processor
+pts/sysbench                   - Sysbench                            System
+pts/system-decompress-gzip     - System GZIP Decompression           Processor
+pts/system-decompress-tiff     - System Libtiff Decompression        Processor
+pts/system-libxml2             - System Libxml2 Parsing              Processor
+pts/systemd-boot-kernel        - Systemd Kernel Boot Time            Processor
+pts/systemd-boot-total         - Systemd Total Boot Time             System
+pts/systemd-boot-userspace     - Systemd Userspace Boot Time         Processor
+pts/t-test1                    - t-test1                             Memory
+pts/tachyon                    - Tachyon                             Processor
+pts/talos-principle            - The Talos Principle                 Graphics
+pts/tensorflow                 - TensorFlow                          System
+pts/tensorflow-lite            - TensorFlow Lite                     System
+pts/tesseract                  - Tesseract                           Graphics
+pts/thronesofbritannia         - A Total War Saga: THRONES OF BRITANNIA Graphics
+pts/tinymembench               - Tinymembench                        Memory
+pts/tiobench                   - Threaded I/O Tester                 Disk
+pts/tjbench                    - libjpeg-turbo tjbench               System
+pts/tnn                        - TNN                                 System
+pts/toktx                      - KTX-Software toktx                  System
+pts/toybrot                    - toyBrot Fractal Generator           Processor
+pts/trislam                    - Triangle Slammer                    Graphics
+pts/tscp                       - TSCP                                Processor
+pts/ttsiod-renderer            - TTSIOD 3D Renderer                  Processor
+pts/tungsten                   - Tungsten Renderer                   Processor
+pts/twtk                       - Total War: Three Kingdoms           Graphics
+pts/tww2                       - Total War: WARHAMMER II             Graphics
+pts/tww3                       - Total War: WARHAMMER III            Graphics
+pts/ue4-atlantis               - Atlantis Substance Demo             Graphics
+pts/ue4-elemental              - Elemental Demo                      Graphics
+pts/ue4-matinee                - Matinee Fight Scene Demo            Graphics
+pts/ue4-mountains              - Landscape Mountains Demo            Graphics
+pts/unigine-heaven             - Unigine Heaven                      Graphics
+pts/unigine-sanctuary          - Unigine Sanctuary                   Graphics
+pts/unigine-super              - Unigine Superposition               Graphics
+pts/unigine-tropics            - Unigine Tropics                     Graphics
+pts/unigine-valley             - Unigine Valley                      Graphics
+pts/unpack-firefox             - Unpacking Firefox                   System
+pts/unpack-linux               - Unpacking The Linux Kernel          Disk
+pts/unvanquished               - Unvanquished                        Graphics
+pts/urbanterror                - Urban Terror                        Graphics
+pts/ut2004-demo                - Unreal Tournament 2004 Demo         Graphics
+pts/uvg266                     - uvg266                              Processor
+pts/v-ray                      - Chaos Group V-RAY                   System
+pts/video-cpu-usage            - 1080p H.264 Video Playback          Graphics
+pts/viennacl                   - ViennaCL                            System
+pts/vkfft                      - VkFFT                               Graphics
+pts/vkmark                     - VKMark                              Graphics
+pts/vkpeak                     - vkpeak                              Graphics
+pts/vkresample                 - VkResample                          Graphics
+pts/vosk                       - VOSK Speech Recognition Toolkit     Processor
+pts/vpxenc                     - VP9 libvpx Encoding                 Processor
+pts/vvenc                      - VVenC                               Processor
+pts/waifu2x-ncnn               - Waifu2x-NCNN Vulkan                 Graphics
+pts/warsow                     - Warsow                              Graphics
+pts/webp                       - WebP Image Encode                   Processor
+pts/webp2                      - WebP2 Image Encode                  Processor
+pts/will-it-scale              - will-it-scale                       OS
+pts/wrf                        - WRF                                 System
+pts/x11perf                    - x11perf                             Graphics
+pts/x264                       - x264                                Processor
+pts/x265                       - x265                                Processor
+pts/xmrig                      - Xmrig                               Processor
+pts/xonotic                    - Xonotic                             Graphics
+pts/xplane11                   - X-Plane                             Graphics
+pts/xplane12                   - X-Plane                             Graphics
+pts/xsbench                    - Xsbench                             System
+pts/xsbench-cl                 - Xsbench OpenCL                      System
+pts/y-cruncher                 - Y-Cruncher                          Processor
+pts/yafaray                    - YafaRay                             Processor
+pts/yquake2                    - yquake2                             Graphics
+pts/z3                         - Z3 Theorem Prover                   Processor
+pts/zendnn-tensorflow          - AMD ZenDNN TensorFlow               System
+system/blender                 - Blender                             System
+system/blogbench               - BlogBench                           Disk
+system/clpeak                  - clpeak                              System
+system/compress-zstd           - Zstd Compression                    Processor
+system/cryptsetup              - Cryptsetup                          System
+system/darktable               - Darktable                           System
+system/dbench                  - Dbench                              Disk
+system/ethminer                - Ethereum Ethminer                   System
+system/fio                     - Flexible IO Tester                  Disk
+system/gegl                    - GEGL                                System
+system/gimp                    - GIMP                                System
+system/glmark2                 - GLmark2                             Graphics
+system/gmic                    - G'MIC                               System
+system/gnupg                   - GnuPG                               Processor
+system/gnuradio                - GNU Radio                           Processor
+system/hugin                   - Hugin                               System
+system/inkscape                - Inkscape                            System
+system/iozone                  - IOzone                              Disk
+system/libreoffice             - LibreOffice                         System
+system/mpv                     - MPV                                 System
+system/nginx                   - Nginx                               System
+system/ocrmypdf                - OCRMyPDF                            System
+system/octave-benchmark        - GNU Octave Benchmark                System
+system/openscad                - OpenSCAD                            System
+system/openssl                 - OpenSSL                             Processor
+system/opm                     - Open Porous Media                   Processor
+system/rawtherapee             - RawTherapee                         System
+system/redis                   - Redis Memtier / Redis Benchmark     System
+system/rsvg                    - librsvg                             System
+system/selenium                - Selenium                            System
+system/selenium-top-sites      - Time To Load + View Popular Websites System
+system/tesseract-ocr           - Tesseract OCR                       System
+system/wireguard               - WireGuard + Linux Networking Stack Stress Test Network
+
+azureuser@VM1:~$ phoronix-test-suite install pts/tinymembench
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:249
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:282
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:332
+
+Phoronix Test Suite v7.8.0
+
+    To Install:    pts/tinymembench-1.0.2
+
+    Determining File Requirements ..........................................................................................................................
+    Searching Download Caches ..............................................................................................................................
+
+    1 Test To Install
+        1 File To Download [0.03MB]
+        1MB Of Disk Space Is Needed
+
+    pts/tinymembench-1.0.2:
+        Test Installation 1 of 1
+        1 File Needed [0.03 MB / 1 Minute]
+        Downloading: tinymembench-20180528.zip                                                                                                      [0.03MB]
+        Estimated Download Time: 1m ........................................................................................................................
+        Installation Size: 0.3 MB
+        Installing Test @ 10:11:19
+
+
+azureuser@VM1:~$ phoronix-test-suite run tinymembench
+
+"continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in /usr/share/phoronix-test-suite/pts-core/objects/pts_Graph/pts_graph_core.php:211
+
+Phoronix Test Suite v7.8.0
+System Information
+
+
+  PROCESSOR:          Intel Xeon Platinum 8171M @ 2.10GHz
+    Core Count:       2
+    Extensions:       SSE 4.2 + AVX512CD + AVX2 + AVX + RDRAND + FSGSBASE
+    Cache Size:       36608 KB
+    Microcode:        0xffffffff
+
+  GRAPHICS:           hyperv_drmdrmfb
+    Screen:           1024x768
+
+  MOTHERBOARD:        Microsoft Virtual Machine
+    BIOS Version:     Hyper-V UEFI v4.1
+
+  MEMORY:             4096MB
+
+  DISK:               32GB Virtual Disk + 9GB Virtual Disk
+    File-System:      ext4
+    Mount Options:    discard relatime rw
+    Disk Scheduler:   NONE
+
+  OPERATING SYSTEM:   Ubuntu 20.04
+    Kernel:           5.15.0-1042-azure (x86_64)
+    Compiler:         GCC 9.4.0
+    System Layer:     microsoft
+    Security:         KPTI + usercopy/swapgs barriers and __user pointer sanitization + Retpolines STIBP: disabled RSB filling PBRSB-eIBRS: Not affected Protection
+
+    Would you like to save these test results (Y/n): y
+
+Recently Saved Test Results:
+- testnqueen1   [Today]
+
+    Enter a name to save these results under: Mem1
+    Enter a unique name to describe this test run / configuration: memiter1
+
+If desired, enter a new description below to better describe this result set / system configuration under test.
+Press ENTER to proceed without changes.
+
+Current Description: microsoft testing on Ubuntu 20.04 via the Phoronix Test Suite.
+
+New Description: 1 iteration of test memory
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:249
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:282
+
+[NOTICE] "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? in pts_test_installer:332
+
+
+Tinymembench 2018-05-28:
+    pts/tinymembench-1.0.2
+    Test 1 of 1
+    Estimated Trial Run Count:    3
+    Estimated Time To Completion: 23 Minutes [10:34 UTC]
+        Started Run 1 @ 10:12:12
+        Started Run 2 @ 10:19:24
+        Started Run 3 @ 10:26:29
+
+    Standard Memcpy:
+        5030.8
+        5035.6
+        5057
+
+    Average: 5041.13 MB/s
+    Deviation: 0.28%
+
+
+    Standard Memset:
+        8174.8
+        8440.4
+        8756.8
+
+    Average: 8457.33 MB/s
+    Deviation: 3.45%
+
+    Do you want to view the text results of the testing (Y/n): Connection to 172.187.161.171 closed by remote host.
+Connection to 172.187.161.171 closed.
+PS C:\Users\prana> 7.7
